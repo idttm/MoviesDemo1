@@ -17,7 +17,7 @@ class MoreInfoViewController: UIViewController {
     var partOneImageUrl = "https://image.tmdb.org/t/p/w500"
     
     @IBOutlet weak var titleLable: UILabel!
-    @IBOutlet weak var overviewLabel: UILabel!
+    @IBOutlet weak var overviewLabel: UITextView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -28,7 +28,7 @@ class MoreInfoViewController: UIViewController {
     
         titleLable.text = currentTitle
         overviewLabel.text = currentOverview
-        ratingLabel.text = String(currentVoide)
+        ratingLabel.text = "Raing: \(String(currentVoide))"
         
         guard let imageUrl = URL(string: partOneImageUrl+partTwoImageUrl) else {return}
         guard let imageData = try? Data(contentsOf: imageUrl) else {return}
