@@ -98,6 +98,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GSW-ZG-pXQ">
+                                <rect key="frame" x="80" y="453" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wbq-43-pNs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -117,6 +121,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="RVL-e1-T5W"/>
                     <connections>
+                        <outlet property="imageView" destination="GSW-ZG-pXQ" id="Kpb-FU-F2M"/>
                         <outlet property="overviewLabel" destination="Vcf-dW-CKY" id="6FX-Ly-MZN"/>
                         <outlet property="ratingLabel" destination="Bgi-vq-gsd" id="x0p-yD-CmL"/>
                         <outlet property="titleLable" destination="DNm-2V-CvP" id="HSj-DJ-WfM"/>

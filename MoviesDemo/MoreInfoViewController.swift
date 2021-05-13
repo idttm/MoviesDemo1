@@ -10,34 +10,31 @@ import UIKit
 class MoreInfoViewController: UIViewController {
 
   
-    var currentMovie = [UsedData]()
+    var currentTitle = ""
+    var currentVoide = 0.0
+    var currentOverview = ""
+    var partTwoImageUrl = ""
+    var partOneImageUrl = "https://image.tmdb.org/t/p/w500"
     
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var title1 = ""
-        
-        for title in currentMovie {
-            title1 = title.originalTitle
-        }
-        var overview1 = ""
-        for  overview in currentMovie {
-            overview1 = overview.overview
-        }
-        var rating1 = ""
-        for rating in currentMovie {
-            rating1 = rating.voteAverageString
-        }
+       
     
-        titleLable.text = title1
-        overviewLabel.text = overview1
-        ratingLabel.text = "Rating: \(rating1)"
+        titleLable.text = currentTitle
+        overviewLabel.text = currentOverview
+        ratingLabel.text = String(currentVoide)
         
-        // Do any additional setup after loading the view.
+        guard let imageUrl = URL(string: partOneImageUrl+partTwoImageUrl) else {return}
+        guard let imageData = try? Data(contentsOf: imageUrl) else {return}
+        
+        imageView.image = UIImage(data: imageData)
+
     }
 
 }

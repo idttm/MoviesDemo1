@@ -9,18 +9,33 @@ import Foundation
 
 struct UsedData {
     
-    let originalTitle: String
-    let voteAverage: Double
-    let overview: String
-    var voteAverageString: String {
-        return "\(voteAverage.rounded())"
-    }
+    let originalTitle: [String]
+    let voteAverage: [Double]
+    let overview: [String]
+    let backdropPath: [String]
+    
     
     init?(dataStruct: Test) {
         
-        originalTitle = dataStruct.originalTitle
-        voteAverage = dataStruct.voteAverage
-        overview = dataStruct.overview
-        
+        var reselt1 = [String]()
+        for result in dataStruct.results {
+            reselt1.append(result.title)
+        }
+        var voteAvarege1 = [Double]()
+        for voteAvarge in dataStruct.results {
+            voteAvarege1.append(voteAvarge.voteAverage)
+        }
+        var overview1 = [String]()
+        for overview in dataStruct.results {
+            overview1.append(overview.overview)
+        }
+        var path1 = [String]()
+        for path in dataStruct.results {
+            path1.append(path.backdropPath)
+        }
+        originalTitle = reselt1
+        voteAverage = voteAvarege1
+        overview = overview1
+        backdropPath = path1
     }
 }

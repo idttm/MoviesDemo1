@@ -17,7 +17,7 @@ class NetworkMoviesManager {
     var delegate: NetworkManagerDelegate?
     func fetchCurrentJson() {
         
-        let urlStirng = "https://api.themoviedb.org/3/movie/550?api_key=357c897a0e2f1679cd227af63c654745"
+        let urlStirng = "https://api.themoviedb.org/3/trending/movie/week?api_key=357c897a0e2f1679cd227af63c654745"
         guard let url = URL(string: urlStirng) else {return}
         
         let session = URLSession(configuration: .default)
@@ -38,6 +38,8 @@ class NetworkMoviesManager {
         do {
            let currentJSON =  try decoder.decode(Test.self, from: data)
             guard let currentData = UsedData(dataStruct: currentJSON) else {return nil }
+
+            print(currentData.originalTitle)
             return currentData
         }
         catch let error as NSError {

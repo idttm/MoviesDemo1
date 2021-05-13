@@ -11,6 +11,11 @@ class MoviesTableViewController: UITableViewController {
 
     let networkManager = NetworkMoviesManager()
     var arrayTitle = [UsedData]()
+    var arrryTitleTest = [String]()
+    var arrayVoite = [Double]()
+    var arrayOverview = [String]()
+    var arrayImage = [String]()
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         networkManager.delegate = self
@@ -29,20 +34,19 @@ class MoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return arrayTitle.count
+//       let indexPath = IndexPath()
+//        let titleArray1 = arrayTitle[indexPath.row].originalTitle
+//
+        return arrryTitleTest.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        var title1 = ""
         
-        for title in arrayTitle {
-            title1 = title.originalTitle
-        }
+        cell.textLabel?.text = arrryTitleTest[indexPath.row]
         
-        cell.textLabel?.text = title1
         return cell
     }
     
@@ -51,18 +55,40 @@ class MoviesTableViewController: UITableViewController {
         guard segue.identifier == "showMovie" else { return }
         let indexPath = tableView.indexPathForSelectedRow!
         let navigaionVC = segue.destination as? MoreInfoViewController
-        let object = arrayTitle[indexPath.row]
-//        let object = fetchResultController.object(at: indexPath)
-        navigaionVC?.currentMovie.append(object)
-        print(object)
+        let objectT = arrryTitleTest[indexPath.row]
+        let objectV = arrayVoite[indexPath.row]
+        let objectO = arrayOverview[indexPath.row]
+        let objectI = arrayImage[indexPath.row]
+        
+        navigaionVC?.currentTitle = objectT
+        navigaionVC?.currentVoide = objectV
+        navigaionVC?.currentOverview = objectO
+        navigaionVC?.partTwoImageUrl = objectI
     }
     
 }
 extension MoviesTableViewController: NetworkManagerDelegate {
     func updateInterface(_: NetworkMoviesManager, with usedDate: UsedData) {
-        
-        arrayTitle.append(usedDate)
-        
+        var array = [String]()
+        for array1 in usedDate.originalTitle {
+            array.append(array1)
+        }
+        var arrayV = [Double]()
+        for arary2 in usedDate.voteAverage {
+            arrayV.append(arary2)
+        }
+        var arrayO = [String]()
+        for array3 in usedDate.overview {
+            arrayO.append(array3)
+        }
+        var arrayI = [String]()
+        for arra4 in usedDate.backdropPath {
+            arrayI.append(arra4)
+        }
+        arrryTitleTest = array
+        arrayVoite = arrayV
+        arrayOverview = arrayO
+        arrayImage = arrayI
     }
     
 }
