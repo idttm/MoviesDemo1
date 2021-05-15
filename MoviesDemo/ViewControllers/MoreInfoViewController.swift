@@ -10,11 +10,7 @@ import UIKit
 class MoreInfoViewController: UIViewController {
 
   
-    var currentTitle = ""
-    var currentVoide = 0.0
-    var currentOverview = ""
-    var partTwoImageUrl = ""
-    var partOneImageUrl = "https://image.tmdb.org/t/p/w500"
+    let modelMoreInfo = ModelMoreInfo.shared
     
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var overviewLabel: UITextView!
@@ -26,13 +22,10 @@ class MoreInfoViewController: UIViewController {
         super.viewDidLoad()
        
     
-        titleLable.text = currentTitle
-        overviewLabel.text = currentOverview
-        ratingLabel.text = "Raing: \(String(currentVoide))"
-        
-        guard let imageUrl = URL(string: partOneImageUrl+partTwoImageUrl) else {return}
-        guard let imageData = try? Data(contentsOf: imageUrl) else {return}
-        
+        titleLable.text = modelMoreInfo.currentTitle
+        overviewLabel.text = modelMoreInfo.currentOverview
+        ratingLabel.text = modelMoreInfo.currentVoide
+        guard let imageData = modelMoreInfo.imageTitle() else {return}
         imageView.image = UIImage(data: imageData)
 
     }

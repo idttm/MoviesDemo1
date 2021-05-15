@@ -26,7 +26,6 @@ class NetworkMoviesManager {
                 if let currentData = self.parseJSON(withData: data) {
                     self.delegate?.updateInterface(self, with: currentData)
                 }
-               
             }
         }
         task.resume()
@@ -39,7 +38,7 @@ class NetworkMoviesManager {
            let currentJSON =  try decoder.decode(Test.self, from: data)
             guard let currentData = UsedData(dataStruct: currentJSON) else {return nil }
 
-            print(currentData.originalTitle)
+            
             return currentData
         }
         catch let error as NSError {
