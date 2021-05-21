@@ -20,8 +20,6 @@ class MoreInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-    
         titleLable.text = modelMoreInfo.currentTitle
         overviewLabel.text = modelMoreInfo.currentOverview
         ratingLabel.text = modelMoreInfo.currentVoide

@@ -1,5 +1,3 @@
-
-
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
@@ -22,44 +20,38 @@ struct Test: Codable {
 
 // MARK: - Result
 struct Result: Codable {
-    let video: Bool
-    let voteAverage: Double
-    let overview, releaseDate, title: String
+    let releaseDate: String
     let adult: Bool
     let backdropPath: String
-    let id: Int
     let genreIDS: [Int]
-    let originalLanguage: OriginalLanguage
-    let originalTitle, posterPath: String
+    let id: Int
+    let originalLanguage, originalTitle, posterPath: String
     let voteCount: Int
+    let video: Bool
+    let title: String
+    let voteAverage: Double
+    let overview: String
     let popularity: Double
     let mediaType: MediaType
 
     enum CodingKeys: String, CodingKey {
-        case video
-        case voteAverage = "vote_average"
-        case overview
         case releaseDate = "release_date"
-        case title, adult
+        case adult
         case backdropPath = "backdrop_path"
-        case id
         case genreIDS = "genre_ids"
+        case id
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
         case posterPath = "poster_path"
         case voteCount = "vote_count"
-        case popularity
+        case video, title
+        case voteAverage = "vote_average"
+        case overview, popularity
         case mediaType = "media_type"
     }
 }
 
 enum MediaType: String, Codable {
     case movie = "movie"
-}
-
-enum OriginalLanguage: String, Codable {
-    case en = "en"
-    case fr = "fr"
-    case ja = "ja"
 }
 

@@ -24,6 +24,21 @@
                                     <segue destination="kqE-GZ-Vda" kind="show" id="cC2-Wa-xeQ"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="joO-81-mpj">
+                                <rect key="frame" x="16" y="124" width="343" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eG6-Fx-w8d">
+                                <rect key="frame" x="163" y="191" width="48" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Search"/>
+                                <connections>
+                                    <action selector="searchAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68V-2s-feZ"/>
+                                    <segue destination="kqE-GZ-Vda" kind="show" identifier="search" id="FrB-S7-752"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -32,15 +47,18 @@
                             <constraint firstItem="jWn-FO-Q84" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cye-cF-8dc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchTF" destination="joO-81-mpj" id="Wm3-PH-nhk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="51"/>
+            <point key="canvasLocation" x="-23.199999999999999" y="50.824587706146929"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="JYr-De-FWa">
             <objects>
-                <tableViewController id="ERT-Xe-T4P" customClass="MoviesTableViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="search" id="ERT-Xe-T4P" customClass="MoviesTableViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FUw-ZQ-hln">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -157,6 +175,9 @@
             <point key="canvasLocation" x="822" y="51"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="FrB-S7-752"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

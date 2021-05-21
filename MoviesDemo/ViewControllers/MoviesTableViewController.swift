@@ -11,12 +11,18 @@ class MoviesTableViewController: UITableViewController {
 
     let modelTableView = ModelTableView.shared
     let modelMoreInfo = ModelMoreInfo.shared
+    let fetchCurrentSearch = SearchManager.shared
+    var array = [String]()
+    var nameString = "mortal"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        modelTableView.modelTableView()
-        modelTableView.networkManager.fetchCurrentJson()
-
+        print(nameString)
+        fetchCurrentSearch.delegate = self
+        fetchCurrentSearch.fetchCurrentJSONSearch(nameString)
+//        modelTableView.modelTableView()
+//        modelTableView.networkManager.fetchCurrentJson()
+//
     }
 
     // MARK: - Table view data source
@@ -24,16 +30,18 @@ class MoviesTableViewController: UITableViewController {
     
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+        return array.count
+//        return modelTableView.arrryTitleTest.count
       
-        return modelTableView.arrryTitleTest.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
+//        cell.textLabel?.text = modelTableView.arrryTitleTest[indexPath.row]
         
-        cell.textLabel?.text = modelTableView.arrryTitleTest[indexPath.row]
+        cell.textLabel?.text = array[indexPath.row]
         
         return cell
     }
@@ -44,6 +52,17 @@ class MoviesTableViewController: UITableViewController {
         let indexPath = tableView.indexPathForSelectedRow!
         modelMoreInfo.transferDate(indexPath)
   
+    }
+    
+}
+extension MoviesTableViewController: NetworkSearchManagerDelegate {
+    func updateInterface(_: SearchManager, with usedDate: SearchUserData) {
+        var array1 = [String]()
+        for array2 in usedDate.name {
+            array1.append(array2)
+        }
+        array = array1
+//        print(array)
     }
     
 }
