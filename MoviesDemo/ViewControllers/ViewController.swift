@@ -32,10 +32,9 @@ class ViewController: UIViewController {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "search" else {return}
         guard let nameStringTF = searchTF.text else {return}
-        let tableVC = segue.destination as? MoviesTableViewController
+        let tableVC = segue.destination as? SearchTableViewController
         tableVC?.nameString = nameStringTF
         print(nameStringTF)
-
     }
     
 

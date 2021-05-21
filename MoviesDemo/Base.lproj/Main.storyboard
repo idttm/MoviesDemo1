@@ -36,7 +36,7 @@
                                 <state key="normal" title="Search"/>
                                 <connections>
                                     <action selector="searchAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68V-2s-feZ"/>
-                                    <segue destination="kqE-GZ-Vda" kind="show" identifier="search" id="FrB-S7-752"/>
+                                    <segue destination="r5e-G4-081" kind="show" identifier="search" id="Cnh-Gi-i8C"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -86,6 +86,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ww-Od-wXS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1742" y="51"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="IXd-OM-dhI">
+            <objects>
+                <tableViewController id="r5e-G4-081" customClass="SearchTableViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2kS-jG-meF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cellTable" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellTable" id="eE5-8d-5FM">
+                                <rect key="frame" x="0.0" y="24.5" width="375" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eE5-8d-5FM" id="gFK-Ro-l7J">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="r5e-G4-081" id="WxY-9V-raJ"/>
+                            <outlet property="delegate" destination="r5e-G4-081" id="1Ji-WN-eym"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="4JK-SS-MBs"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gnV-uL-ryU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1742" y="762"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7oV-Yo-IyM">
+            <objects>
+                <navigationController id="G7S-sO-VPT" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hN1-Pn-tfS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dky-wZ-lQq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="822" y="763"/>
         </scene>
         <!--More Info View Controller-->
         <scene sceneID="8jK-vb-R9z">
@@ -175,9 +217,6 @@
             <point key="canvasLocation" x="822" y="51"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="FrB-S7-752"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

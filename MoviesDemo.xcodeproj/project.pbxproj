@@ -18,6 +18,7 @@
 		3E69FAD8264C435B00310370 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E69FAD6264C435B00310370 /* LaunchScreen.storyboard */; };
 		3E69FAE1264C440D00310370 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69FAE0264C440D00310370 /* NetworkManager.swift */; };
 		3E6E46AF2657B6BD0042D40E /* SearchUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E46AE2657B6BD0042D40E /* SearchUserData.swift */; };
+		3E6E46B1265833F90042D40E /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6E46B0265833F90042D40E /* SearchTableViewController.swift */; };
 		3E76C1212650213F00EF6DD4 /* ModelTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E76C1202650213F00EF6DD4 /* ModelTableView.swift */; };
 		3E76C124265026E700EF6DD4 /* ModelMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E76C123265026E700EF6DD4 /* ModelMoreInfo.swift */; };
 		3EB917132652B9D0003D6ACD /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB917122652B9D0003D6ACD /* CoreData.swift */; };
@@ -41,6 +42,7 @@
 		3E69FAD9264C435B00310370 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E69FAE0264C440D00310370 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		3E6E46AE2657B6BD0042D40E /* SearchUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserData.swift; sourceTree = "<group>"; };
+		3E6E46B0265833F90042D40E /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		3E76C1202650213F00EF6DD4 /* ModelTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTableView.swift; sourceTree = "<group>"; };
 		3E76C123265026E700EF6DD4 /* ModelMoreInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMoreInfo.swift; sourceTree = "<group>"; };
 		3EB917122652B9D0003D6ACD /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				3E69FACC264C435200310370 /* ViewController.swift */,
 				3EB9E7A3264C5A9900FD59B5 /* MoviesTableViewController.swift */,
 				3EB9E7A1264C573000FD59B5 /* MoreInfoViewController.swift */,
+				3E6E46B0265833F90042D40E /* SearchTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				3E69FAC9264C435200310370 /* AppDelegate.swift in Sources */,
 				3EB917132652B9D0003D6ACD /* CoreData.swift in Sources */,
 				3EB9E79C264C47F400FD59B5 /* DataStruct.swift in Sources */,
+				3E6E46B1265833F90042D40E /* SearchTableViewController.swift in Sources */,
 				3E69FAE1264C440D00310370 /* NetworkManager.swift in Sources */,
 				3EB9E79E264C4DE200FD59B5 /* UsedData.swift in Sources */,
 				3EB9E7A2264C573000FD59B5 /* MoreInfoViewController.swift in Sources */,
