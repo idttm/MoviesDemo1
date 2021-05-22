@@ -12,13 +12,23 @@ class SearchTableViewController: UITableViewController {
     
     let fetchCurrentSearch = SearchManager.shared
     var array = [String]()
-    var nameString = "mortal"
+    var nameString = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print(nameString)
         fetchCurrentSearch.delegate = self
         fetchCurrentSearch.fetchCurrentJSONSearch(nameString)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if nameString == "" {
+            showAlertVC()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -49,6 +59,17 @@ extension SearchTableViewController: NetworkSearchManagerDelegate {
         }
         array = array1
 //        print(array)
+    }
+    
+}
+extension SearchTableViewController {
+    private func showAlertVC () {
+        let alertVC = UIAlertController(title: "Ошибка", message: "Нет данных в поле ввода", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertVC, animated: true, completion: nil)
+        
     }
     
 }

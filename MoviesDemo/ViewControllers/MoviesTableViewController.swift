@@ -17,12 +17,19 @@ class MoviesTableViewController: UITableViewController {
         
         modelTableView.modelTableView()
         modelTableView.networkManager.fetchCurrentJson()
-//
+        tableView.reloadData()
+        
     }
 
     // MARK: - Table view data source
-
     
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.tableView.reloadData()
+        }
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -33,9 +40,9 @@ class MoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = modelTableView.arrryTitleTest[indexPath.row]
-        
-        
+        DispatchQueue.main.async {
+            cell.textLabel?.text = self.modelTableView.arrryTitleTest[indexPath.row]
+        }
         
         return cell
     }

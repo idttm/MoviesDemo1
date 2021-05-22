@@ -34,12 +34,9 @@ class NetworkMoviesManager {
     func parseJSON(withData data: Data) -> UsedData? {
         
         let decoder = JSONDecoder()
-        print(String(data: data, encoding: .utf8))
         do {
             let currentJSON =  try decoder.decode(Test.self, from: data)
             guard let currentData = UsedData(dataStruct: currentJSON) else {return nil }
-            
-            print(currentData)
             return currentData
         }
         catch let error as NSError {
