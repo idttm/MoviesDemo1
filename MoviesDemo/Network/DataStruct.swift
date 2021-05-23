@@ -8,7 +8,7 @@ import Foundation
 // MARK: - Test
 struct Test: Codable {
     let page: Int
-    let results: [Result]
+    let results: [DataResult]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -19,7 +19,7 @@ struct Test: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct DataResult: Codable {
     let releaseDate: String
     let adult: Bool
     let backdropPath: String

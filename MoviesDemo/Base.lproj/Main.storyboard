@@ -71,9 +71,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="wNU-dS-xoX" kind="show" identifier="showMovie" id="duQ-HW-yBm"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -82,10 +79,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="mcy-C9-Y3U"/>
+                    <connections>
+                        <segue destination="wNU-dS-xoX" kind="show" identifier="showMovie" id="Cmg-Kb-Blw"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ww-Od-wXS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="51"/>
+            <point key="canvasLocation" x="1741.5999999999999" y="50.824587706146929"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="IXd-OM-dhI">

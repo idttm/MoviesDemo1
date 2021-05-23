@@ -5,10 +5,10 @@
 
 import Foundation
 
-// MARK: - Test2
-struct Test2: Codable {
+// MARK: - SearchData
+struct SearchData: Codable {
     let page: Int
-    let results: [Result2]
+    let results: [DataSearch]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -19,43 +19,7 @@ struct Test2: Codable {
 }
 
 // MARK: - Result
-struct Result2: Codable {
+struct DataSearch: Codable {
+    let name: String
     let id: Int
-    let logoPath: JSONNull?
-    let name, originCountry: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case logoPath = "logo_path"
-        case name
-        case originCountry = "origin_country"
-    }
 }
-
-// MARK: - Encode/decode helpers
-
-class JSONNull: Codable, Hashable {
-
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
-        return true
-    }
-
-    public var hashValue: Int {
-        return 0
-    }
-
-    public init() {}
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if !container.decodeNil() {
-            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
-        }
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encodeNil()
-    }
-}
-

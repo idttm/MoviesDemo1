@@ -9,50 +9,106 @@ import UIKit
 
 class MoviesTableViewController: UITableViewController {
 
-    let modelTableView = ModelTableView.shared
+    let viewModel = MoviewTBVViewModel()
     let modelMoreInfo = ModelMoreInfo.shared
+    private var filterArraySearch = [String]()
+    let searchResultController = UISearchController(searchResultsController: nil)
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchResultController.searchBar.text else {return false}
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchResultController.isActive && !searchBarIsEmpty
+    }
+
+    private var selectedData: DataResult?
    
+   
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchResultController.searchResultsUpdater = self
+        searchResultController.searchBar.placeholder = "Search"
+        searchResultController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchResultController
         
-        modelTableView.modelTableView()
-        modelTableView.networkManager.fetchCurrentJson()
-        tableView.reloadData()
+        viewModel.getData { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
+        
         
     }
 
     // MARK: - Table view data source
     
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.tableView.reloadData()
-        }
-    }
+    
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-      return modelTableView.arrryTitleTest.count
+        if isFiltering {
+            return filterArraySearch.count
+        }
+        return viewModel.numberOfRows
 
+    }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if viewModel.currentPage < viewModel.totalPages && indexPath.row == viewModel.numberOfRows - 1 {
+            viewModel.currentPage += 1
+            viewModel.getData { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        DispatchQueue.main.async {
-            cell.textLabel?.text = self.modelTableView.arrryTitleTest[indexPath.row]
+        if isFiltering {
+            
+                let title = filterArraySearch[indexPath.row]
+                cell.textLabel?.text = title
+            
+        } else {
+            let title = viewModel.titleForRow(at: indexPath)
+            cell.textLabel?.text = title
         }
         
+        
+        
         return cell
+
     }
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedData = viewModel.dataResult(at: indexPath)
+        
+        performSegue(withIdentifier: "showMovie", sender: nil)
+    }
+//
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "showMovie" else { return }
-        let indexPath = tableView.indexPathForSelectedRow!
-        modelMoreInfo.transferDate(indexPath)
-  
+        guard let moreVC = segue.destination as? MoreInfoViewController else {return}
+        moreVC.currentDataForMoreInfo = selectedData
+        
     }
     
+}
+extension MoviesTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearch(searchController.searchBar.text!)
+    }
+    
+    private func filterContentForSearch(_ searchText: String) {
+        
+        let  arrayDataTitle = viewModel.searchArrayTitle()
+        filterArraySearch = arrayDataTitle.filter({ titleSearch in
+            return titleSearch.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+       
+    }
 }

@@ -10,17 +10,14 @@ import UIKit
 class ViewController: UIViewController {
 
     let fetchCurrent = NetworkMoviesManager()
-    let fetchCurrentSearch = SearchManager.shared
+   
     @IBOutlet weak var searchTF: UITextField!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchCurrent.fetchCurrentJson()
-        fetchCurrentSearch.fetchCurrentJSONSearch()
-       
-        // Do any additional setup after loading the view.
+        
     }
     @IBAction func searchAction(_ sender: UIButton) {
             }
@@ -28,15 +25,7 @@ class ViewController: UIViewController {
     
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        guard segue.identifier == "search" else {return}
-        guard let nameStringTF = searchTF.text else {return}
-        let tableVC = segue.destination as? SearchTableViewController
-        tableVC?.nameString = nameStringTF
-        print(nameStringTF)
     
-    }
 }
 
 
