@@ -10,9 +10,9 @@ import Foundation
 class SearchManager {
     
     
-    func fetchCurrentJson(query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
+    func gettingDataSearchFromJSON(query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
     
-    let urlStirng =  "https://api.themoviedb.org/3/search/keyword?api_key=357c897a0e2f1679cd227af63c654745&query=\(query)&page=1"
+    let urlStirng =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=1&include_adult=false"
         
         guard let url = URL(string: urlStirng) else {return}
         

@@ -24,19 +24,12 @@
                                     <segue destination="kqE-GZ-Vda" kind="show" id="cC2-Wa-xeQ"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="joO-81-mpj">
-                                <rect key="frame" x="16" y="124" width="343" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eG6-Fx-w8d">
-                                <rect key="frame" x="163" y="191" width="48" height="25"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLc-PH-LDY">
+                                <rect key="frame" x="163" y="161" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Search"/>
                                 <connections>
-                                    <action selector="searchAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="68V-2s-feZ"/>
-                                    <segue destination="r5e-G4-081" kind="show" identifier="search" id="Cnh-Gi-i8C"/>
+                                    <segue destination="CvM-oQ-Jwm" kind="show" id="V81-zs-c7l"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -47,9 +40,6 @@
                             <constraint firstItem="jWn-FO-Q84" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cye-cF-8dc"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="searchTF" destination="joO-81-mpj" id="Wm3-PH-nhk"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -96,7 +86,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cellTable" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellTable" id="eE5-8d-5FM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cellTable" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="eE5-8d-5FM">
                                 <rect key="frame" x="0.0" y="24.5" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eE5-8d-5FM" id="gFK-Ro-l7J">
@@ -111,10 +101,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="4JK-SS-MBs"/>
+                    <connections>
+                        <segue destination="wNU-dS-xoX" kind="show" identifier="moreInfo" id="ixq-ki-6mR"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gnV-uL-ryU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="859"/>
+            <point key="canvasLocation" x="916" y="858.62068965517244"/>
         </scene>
         <!--More Info View Controller-->
         <scene sceneID="8jK-vb-R9z">
@@ -203,7 +196,29 @@
             </objects>
             <point key="canvasLocation" x="822" y="51"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="f5I-wm-7B6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CvM-oQ-Jwm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="voA-Le-JFb"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iQW-hK-FQ7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="r5e-G4-081" kind="relationship" relationship="rootViewController" id="EXo-q1-rjk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wJ0-0k-YUK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-23.199999999999999" y="858.62068965517244"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ixq-ki-6mR"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
