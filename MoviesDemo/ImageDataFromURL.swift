@@ -7,11 +7,8 @@
 
 import Foundation
 
-class ModelMoreInfo {
+class ImageDataFromURL {
     
-    static let shared = ModelMoreInfo()
-    private init() {}
-
     private var partOneImageUrl = "https://image.tmdb.org/t/p/w500"
     
     

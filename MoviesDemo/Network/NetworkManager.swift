@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol NetworkManagerDelegate {
-    func updateInterface(_: NetworkMoviesManager, with usedDate: UsedData)
-}
-
 enum NetworkError: Error {
     case somothingWentWrong
     case noData
@@ -19,7 +15,7 @@ enum NetworkError: Error {
 
 class NetworkMoviesManager {
     
-    func fetchCurrentJson(page: Int, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+    func gettingDataFromJSON(page: Int, completion: @escaping (Result<[DataResult],Error>) -> Void) {
         let urlStirng = "https://api.themoviedb.org/3/trending/movie/week?api_key=357c897a0e2f1679cd227af63c654745&page=\(page)"
         guard let url = URL(string: urlStirng) else {return}
         let session = URLSession(configuration: .default)

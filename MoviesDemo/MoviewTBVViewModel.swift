@@ -18,7 +18,7 @@ class MoviewTBVViewModel {
     
     func getData(completio: @escaping() -> Void) {
         
-        networkManager.fetchCurrentJson(page: currentPage) { [weak self] result in
+        networkManager.gettingDataFromJSON(page: currentPage) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.data.append(contentsOf: data)
@@ -35,12 +35,8 @@ class MoviewTBVViewModel {
     func dataResult(at indexPath: IndexPath) -> DataResult {
         data[indexPath.row]
     }
-    func searchArrayTitle() -> [String] {
-        var arrayTitle = [String]()
-        for array in data {
-            arrayTitle.append(array.title)
-        }
-        return arrayTitle
+    func searchArrayTitle() -> [DataResult] {
+        return data
     }
     
 

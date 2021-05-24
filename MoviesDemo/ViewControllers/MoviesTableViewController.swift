@@ -10,8 +10,8 @@ import UIKit
 class MoviesTableViewController: UITableViewController {
 
     let viewModel = MoviewTBVViewModel()
-    let modelMoreInfo = ModelMoreInfo.shared
-    private var filterArraySearch = [String]()
+    let viewModelMoreInfo = ImageDataFromURL()
+    private var filterArraySearch = [DataResult]()
     let searchResultController = UISearchController(searchResultsController: nil)
     private var searchBarIsEmpty: Bool {
         guard let text = searchResultController.searchBar.text else {return false}
@@ -23,28 +23,20 @@ class MoviesTableViewController: UITableViewController {
 
     private var selectedData: DataResult?
    
-   
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         searchResultController.searchResultsUpdater = self
         searchResultController.searchBar.placeholder = "Search"
         searchResultController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchResultController
-        
         viewModel.getData { [weak self] in
             self?.tableView.reloadData()
         }
-        
-        
         
     }
 
     // MARK: - Table view data source
     
-
-    
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         if isFiltering {
@@ -67,31 +59,34 @@ class MoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         if isFiltering {
-            
-                let title = filterArraySearch[indexPath.row]
+            let title = filterArraySearch[indexPath.row].title
                 cell.textLabel?.text = title
-            
         } else {
             let title = viewModel.titleForRow(at: indexPath)
             cell.textLabel?.text = title
         }
-        
-        
-        
         return cell
 
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedData = viewModel.dataResult(at: indexPath)
+       
+            selectedData = viewModel.dataResult(at: indexPath)
         
-        performSegue(withIdentifier: "showMovie", sender: nil)
+            performSegue(withIdentifier: "showMovie", sender: nil)
+        
     }
 //
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "showMovie" else { return }
         guard let moreVC = segue.destination as? MoreInfoViewController else {return}
-        moreVC.currentDataForMoreInfo = selectedData
+        let indexPath = tableView.indexPathForSelectedRow!
+        if isFiltering {
+            moreVC.currentDataForMoreInfo = filterArraySearch[indexPath.row]
+            
+        } else {
+            moreVC.currentDataForMoreInfo = selectedData
+        }
         
     }
     
@@ -102,13 +97,10 @@ extension MoviesTableViewController: UISearchResultsUpdating {
     }
     
     private func filterContentForSearch(_ searchText: String) {
-        
         let  arrayDataTitle = viewModel.searchArrayTitle()
         filterArraySearch = arrayDataTitle.filter({ titleSearch in
-            return titleSearch.lowercased().contains(searchText.lowercased())
+            return titleSearch.title.lowercased().contains(searchText.lowercased())
         })
-        
         tableView.reloadData()
-       
     }
 }
