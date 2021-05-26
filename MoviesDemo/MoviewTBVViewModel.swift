@@ -11,7 +11,9 @@ class MoviewTBVViewModel {
     
     private let networkManager = NetworkMoviesManager()
     private var data: [DataResult] = []
+    private var filterArraySearch = [DataResult]()
     var numberOfRows: Int { data.count }
+    var numberOfRowsSearch: Int { filterArraySearch.count }
     var currentPage = 1
     var totalPages = 1000
     
@@ -35,10 +37,23 @@ class MoviewTBVViewModel {
     func dataResult(at indexPath: IndexPath) -> DataResult {
         data[indexPath.row]
     }
-    func searchArrayTitle() -> [DataResult] {
-        return data
+    func titleForRowSearch(at indexPath: IndexPath) -> String {
+        filterArraySearch[indexPath.row].title
+    }
+    func dataResultSearch(at indexPath: IndexPath) -> DataResult {
+        filterArraySearch[indexPath.row]
     }
     
-
+    func filterContentForSearch(_ searchText: String) {
+        let  arrayDataTitle = data
+        filterArraySearch = arrayDataTitle.filter({ titleSearch in
+            return titleSearch.title.lowercased().contains(searchText.lowercased())
+        })
+    }
+    func startUnpagination() {
+        if currentPage < totalPages {
+            currentPage += 1
+        }
+    }
     
 }
