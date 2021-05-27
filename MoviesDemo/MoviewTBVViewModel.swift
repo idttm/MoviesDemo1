@@ -5,7 +5,7 @@
 //  Created by Andrew Cheberyako on 22.05.2021.
 //
 
-import Foundation
+import UIKit
 
 class MoviewTBVViewModel {
     
@@ -19,16 +19,18 @@ class MoviewTBVViewModel {
     
     
     func getData(completio: @escaping() -> Void) {
-        
-        networkManager.gettingDataFromJSON(page: currentPage) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.data.append(contentsOf: data)
-            case .failure(let error):
-                break
+        DispatchQueue.main.async {
+            self.networkManager.gettingDataFromJSON(page: self.currentPage) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.data.append(contentsOf: data)
+                case .failure(let error):
+                    break
+                }
+                completio()
             }
-            completio()
         }
+        
     }
     
     func titleForRow(at indexPath: IndexPath) -> String {
@@ -54,6 +56,13 @@ class MoviewTBVViewModel {
         if currentPage < totalPages {
             currentPage += 1
         }
+    }
+    private func searchBarIsEmpty(at seachController: UISearchController) -> Bool {
+        guard let text = seachController.searchBar.text else {return false }
+        return text.isEmpty
+    }
+    func isFiltering (at seachController: UISearchController) -> Bool {
+        return seachController.isActive && !searchBarIsEmpty(at: seachController)
     }
     
 }

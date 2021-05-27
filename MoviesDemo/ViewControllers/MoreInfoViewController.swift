@@ -14,6 +14,7 @@ class MoreInfoViewController: UIViewController {
     var currentDataForMoreInfo: DataResult?
     var currentDataForMoreInfoSearch: DataSearch?
     
+    
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var overviewLabel: UITextView!
     @IBOutlet weak var ratingLabel: UILabel!

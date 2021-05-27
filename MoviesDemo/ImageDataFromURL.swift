@@ -9,7 +9,7 @@ import Foundation
 
 class ImageDataFromURL {
     
-    private var partOneImageUrl = "https://image.tmdb.org/t/p/w500"
+    private var partOneImageUrl = "https://image.tmdb.org/t/p/w185"
     
     
     func imageTitle (_ partTwoImageUrl: String) -> Data? {

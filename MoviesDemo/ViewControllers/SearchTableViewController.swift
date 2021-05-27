@@ -22,13 +22,15 @@ class SearchTableViewController: UITableViewController {
         return searchResultController.isActive && !searchBarIsEmpty
     }
     private var selectedMovie: DataSearch?
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.searchController = searchResultController
         searchResultController.searchResultsUpdater = self
         searchResultController.searchBar.placeholder = "Search"
         searchResultController.obscuresBackgroundDuringPresentation = false
-        navigationItem.searchController = searchResultController
+        
         
     }
     
@@ -80,7 +82,6 @@ extension SearchTableViewController: UISearchResultsUpdating {
         let  arrayDataTitle = viewModel.searchArrayTitle()
         filterArraySearch = arrayDataTitle.filter({ titleSearch in
             return titleSearch.title.lowercased().contains(searchText.lowercased())
-            print(arrayDataTitle)
         })
         tableView.reloadData()
     }

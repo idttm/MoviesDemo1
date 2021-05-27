@@ -9,37 +9,37 @@ import UIKit
 
 class MoviesTableViewController: UITableViewController {
 
-    let viewModel = MoviewTBVViewModel()
-    let viewModelMoreInfo = ImageDataFromURL()
+    private let viewModel = MoviewTBVViewModel()
+    private let viewModelMoreInfo = ImageDataFromURL()
     
-    let searchResultController = UISearchController(searchResultsController: nil)
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchResultController.searchBar.text else {return false}
-        return text.isEmpty
-    }
-    private var isFiltering: Bool {
-        return searchResultController.isActive && !searchBarIsEmpty
-    }
-
     private var selectedData: DataResult?
-   
+    
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search"
+        searchController.obscuresBackgroundDuringPresentation = false
+        return searchController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchResultController.searchResultsUpdater = self
-        searchResultController.searchBar.placeholder = "Search"
-        searchResultController.obscuresBackgroundDuringPresentation = false
-        navigationItem.searchController = searchResultController
+        addSearchController()
         viewModel.getData { [weak self] in
             self?.tableView.reloadData()
         }
         
+    }
+    private func addSearchController() {
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if isFiltering {
+        if viewModel.isFiltering(at: searchController) {
             return viewModel.numberOfRowsSearch
         }
         return viewModel.numberOfRows
@@ -57,7 +57,8 @@ class MoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
        
-        if isFiltering {
+        if viewModel.isFiltering(at: searchController){
+            
             let title = viewModel.titleForRowSearch(at: indexPath)
                 cell.textLabel?.text = title
         } else {
@@ -68,7 +69,8 @@ class MoviesTableViewController: UITableViewController {
 
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isFiltering {
+       
+        if viewModel.isFiltering(at: searchController) {
             selectedData = viewModel.dataResultSearch(at: indexPath)
         } else {
             selectedData = viewModel.dataResult(at: indexPath)
@@ -86,9 +88,9 @@ class MoviesTableViewController: UITableViewController {
 }
 extension MoviesTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.filterContentForSearch(searchController.searchBar.text!)
+       viewModel.filterContentForSearch(searchController.searchBar.text!)
         tableView.reloadData()
     }
-    
-    
 }
+
+
