@@ -30,31 +30,20 @@ class SearchTableViewController: UITableViewController {
         searchResultController.searchResultsUpdater = self
         searchResultController.searchBar.placeholder = "Search"
         searchResultController.obscuresBackgroundDuringPresentation = false
-        
-        
     }
-    
     // MARK: - Table view data source
     
-    
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return filterArraySearch.count
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
-        
         cell.textLabel?.text = filterArraySearch[indexPath.row].title
-        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         selectedMovie = viewModel.dataResult(at: indexPath)
-        
         performSegue(withIdentifier: "moreInfo", sender: nil)
         
     }
@@ -65,8 +54,6 @@ class SearchTableViewController: UITableViewController {
         let indexPath = tableView.indexPathForSelectedRow!
         if isFiltering {
             moreVC.currentDataForMoreInfoSearch = filterArraySearch[indexPath.row]
-            
-            
         }
     }
 }

@@ -7,10 +7,7 @@
 
 import UIKit
 
-
-
 class MoviesCollectionViewController: UICollectionViewController {
-    
     
     let viewModel = MoviewTBVViewModel()
     let viewModelMoreInfo = ImageDataFromURL()
@@ -20,29 +17,17 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getData { [weak self] in
-            self?.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.viewModel.getData { [weak self] in
+                self?.collectionView.reloadData()
+            }
         }
-        
     }
-    
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    
-    
-    // MARK: UICollectionViewDataSource
-    
+
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
@@ -63,16 +48,27 @@ class MoviesCollectionViewController: UICollectionViewController {
         if  indexPath.row == viewModel.numberOfRows - 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "activitiIndicatorCell", for: indexPath) as! MoviesCollectionViewCell
             cell.colletctionActivitiIndicator.startAnimating()
-            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! MoviesCollectionViewCell
-            let imageData = imageDataFromURL.imageTitle(viewModel.dataResult(at: indexPath).posterPath)
-            cell.collectionImage.image = UIImage(data: imageData!)
+            DispatchQueue.main.async {
+                let imageData = self.imageDataFromURL.imageTitle(self.viewModel.dataResult(at: indexPath).posterPath)
+                cell.collectionImage.image = UIImage(data: imageData!)
+            }
             let title = viewModel.titleForRow(at: indexPath)
             cell.collectionTitle.text = title
             return cell
         }
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedData = viewModel.dataResult(at: indexPath)
+        performSegue(withIdentifier: "showMovie", sender: nil)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard segue.identifier == "showMovie" else { return }
+        guard let moreVC = segue.destination as? MoreInfoViewController else {return}
+        moreVC.currentDataForMoreInfo = selectedData
     }
 }
 extension MoviesCollectionViewController: UICollectionViewDelegateFlowLayout {

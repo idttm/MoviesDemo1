@@ -9,17 +9,14 @@ import UIKit
 
 class MoreInfoViewController: UIViewController {
 
-  
     private let modelMoreInfo = ImageDataFromURL()
     var currentDataForMoreInfo: DataResult?
     var currentDataForMoreInfoSearch: DataSearch?
-    
     
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var overviewLabel: UITextView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,11 +32,7 @@ class MoreInfoViewController: UIViewController {
             guard let imageData = modelMoreInfo.imageTitle(currentDataForMoreInfoSearch!.backdropPath!) else {return}
             imageView.image = UIImage(data: imageData)
         }
-        
-        
-        
     }
-
 }
 
 
