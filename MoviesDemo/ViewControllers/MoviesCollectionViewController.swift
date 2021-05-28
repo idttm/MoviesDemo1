@@ -17,13 +17,13 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async {
-            self.viewModel.getData { [weak self] in
-                self?.collectionView.reloadData()
-            }
+        viewModel.getData { [weak self] in
+            self?.collectionView.reloadData()
+            
         }
     }
-
+    
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -35,11 +35,10 @@ class MoviesCollectionViewController: UICollectionViewController {
     }
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            DispatchQueue.main.async {
-                self.viewModel.startUnpagination()
-                self.viewModel.getData { [weak self] in
-                    self?.collectionView.reloadData()
-                }
+            viewModel.startUnpagination()
+            viewModel.getData { [weak self] in
+                collectionView.reloadData()
+                
             }
         }
     }
@@ -51,12 +50,16 @@ class MoviesCollectionViewController: UICollectionViewController {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! MoviesCollectionViewCell
-            DispatchQueue.main.async {
+            
+            if cell.collectionImage == nil {
+                cell.collectionActctivitiIndicatorImageView.startAnimating()
+            } else {
+                
                 let imageData = self.imageDataFromURL.imageTitle(self.viewModel.dataResult(at: indexPath).posterPath)
                 cell.collectionImage.image = UIImage(data: imageData!)
+                let title = viewModel.titleForRow(at: indexPath)
+                cell.collectionTitle.text = title
             }
-            let title = viewModel.titleForRow(at: indexPath)
-            cell.collectionTitle.text = title
             return cell
         }
     }

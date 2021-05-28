@@ -108,15 +108,20 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="4GP-56-XfN">
+                                            <rect key="frame" x="60" y="76.5" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="SgC-bc-bMM" firstAttribute="leading" secondItem="qOD-Nj-HqM" secondAttribute="leading" constant="3" id="51n-5Z-8n5"/>
+                                        <constraint firstItem="4GP-56-XfN" firstAttribute="centerY" secondItem="5F4-zU-Q7D" secondAttribute="centerY" id="Reo-rB-yhR"/>
                                         <constraint firstItem="SgC-bc-bMM" firstAttribute="centerX" secondItem="qOD-Nj-HqM" secondAttribute="centerX" id="iHI-4w-aRI"/>
                                         <constraint firstAttribute="trailing" secondItem="SgC-bc-bMM" secondAttribute="trailing" constant="3" id="jPs-L9-bcU"/>
                                         <constraint firstItem="5F4-zU-Q7D" firstAttribute="width" secondItem="qOD-Nj-HqM" secondAttribute="width" id="kcN-db-l0D"/>
                                         <constraint firstItem="SgC-bc-bMM" firstAttribute="top" secondItem="5F4-zU-Q7D" secondAttribute="bottom" constant="1" id="kcx-w7-ReQ"/>
                                         <constraint firstItem="SgC-bc-bMM" firstAttribute="width" secondItem="5F4-zU-Q7D" secondAttribute="width" multiplier="0.957143" id="kjV-vY-lcH"/>
                                         <constraint firstAttribute="trailing" secondItem="SgC-bc-bMM" secondAttribute="trailing" constant="3" id="sPF-qJ-Tps"/>
+                                        <constraint firstItem="4GP-56-XfN" firstAttribute="centerX" secondItem="5F4-zU-Q7D" secondAttribute="centerX" id="uss-ZS-RPG"/>
                                         <constraint firstItem="5F4-zU-Q7D" firstAttribute="centerX" secondItem="qOD-Nj-HqM" secondAttribute="centerX" id="usz-xt-auf"/>
                                         <constraint firstItem="5F4-zU-Q7D" firstAttribute="top" secondItem="qOD-Nj-HqM" secondAttribute="top" id="vwj-H2-Qd9"/>
                                         <constraint firstItem="SgC-bc-bMM" firstAttribute="leading" secondItem="qOD-Nj-HqM" secondAttribute="leading" constant="3" id="xK7-Lg-I79"/>
@@ -124,6 +129,7 @@
                                 </collectionViewCellContentView>
                                 <size key="customSize" width="140" height="200"/>
                                 <connections>
+                                    <outlet property="collectionActctivitiIndicatorImageView" destination="4GP-56-XfN" id="0hp-gc-seL"/>
                                     <outlet property="collectionImage" destination="5F4-zU-Q7D" id="BZ4-Fr-hHg"/>
                                     <outlet property="collectionTitle" destination="SgC-bc-bMM" id="2fJ-PM-n8Z"/>
                                 </connections>
@@ -300,6 +306,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Odn-uC-Bsl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aOc-nH-Z6y">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

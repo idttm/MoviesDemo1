@@ -19,7 +19,6 @@ class MoviewTBVViewModel {
     
     
     func getData(completio: @escaping() -> Void) {
-        DispatchQueue.main.async {
             self.networkManager.gettingDataFromJSON(page: self.currentPage) { [weak self] result in
                 switch result {
                 case .success(let data):
@@ -29,8 +28,6 @@ class MoviewTBVViewModel {
                 }
                 completio()
             }
-        }
-        
     }
     
     func titleForRow(at indexPath: IndexPath) -> String {
