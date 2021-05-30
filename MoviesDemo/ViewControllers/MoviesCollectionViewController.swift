@@ -51,12 +51,11 @@ class MoviesCollectionViewController: UICollectionViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! MoviesCollectionViewCell
             
             if cell.collectionImage == nil {
-//                cell.collectionActctivitiIndicatorImageView.startAnimating()
+                cell.collectionActctivitiIndicatorImageView.startAnimating()
             } else {
-                DispatchQueue.main.async {
-                    let imageView = self.imageDataFromURL.downloadImage(self.viewModel.partTwoImageUrl(at: indexPath), indexPath: indexPath)
+                    cell.collectionImage.kf.indicatorType = .activity
+                    let imageView = imageDataFromURL.downloadImage(viewModel.partTwoImageUrl(at: indexPath), indexPath: indexPath)
                     cell.collectionImage.image = imageView!.image
-                }
                 
                 let title = viewModel.titleForRow(at: indexPath)
                 cell.collectionTitle.text = title
