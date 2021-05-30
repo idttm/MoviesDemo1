@@ -54,6 +54,10 @@ class MoviewTBVViewModel {
             currentPage += 1
         }
     }
+    func partTwoImageUrl(at indexPath: IndexPath) -> String {
+        data[indexPath.row].posterPath
+    }
+    
     private func searchBarIsEmpty(at seachController: UISearchController) -> Bool {
         guard let text = seachController.searchBar.text else {return false }
         return text.isEmpty
