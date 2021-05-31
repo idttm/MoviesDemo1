@@ -14,12 +14,11 @@ class MoviewTBVViewModel {
     private var filterArraySearch = [DataResult]()
     var numberOfRows: Int { data.count }
     var numberOfRowsSearch: Int { filterArraySearch.count }
-    var currentPage = 1
-    var totalPages = 1000
-    
+    var page = 1
     
     func getData(completio: @escaping() -> Void) {
-            self.networkManager.gettingDataFromJSON(page: self.currentPage) { [weak self] result in
+        
+        self.networkManager.gettingDataFromJSON(page: page) { [weak self] result in
                 switch result {
                 case .success(let data):
                     self?.data.append(contentsOf: data)
@@ -28,6 +27,10 @@ class MoviewTBVViewModel {
                 }
                 completio()
             }
+        pagePlus()
+    }
+    func pagePlus() {
+        page += 1
     }
     
     func titleForRow(at indexPath: IndexPath) -> String {
@@ -48,11 +51,6 @@ class MoviewTBVViewModel {
         filterArraySearch = arrayDataTitle.filter({ titleSearch in
             return titleSearch.title.lowercased().contains(searchText.lowercased())
         })
-    }
-    func startUnpagination() {
-        if currentPage < totalPages {
-            currentPage += 1
-        }
     }
     func partTwoImageUrl(at indexPath: IndexPath) -> String {
         data[indexPath.row].posterPath

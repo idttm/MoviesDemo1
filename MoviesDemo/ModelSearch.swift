@@ -9,7 +9,7 @@ import Foundation
 
 class ModelSearch {
     
-    private let networkManager = SearchManager()
+    private let networkManager = NetworkMoviesManager()
     private var data: [DataSearch] = []
     
     func getData(_ textSearch: String, completio: @escaping() -> Void) {

@@ -11,9 +11,7 @@ import Kingfisher
 class MoviesCollectionViewController: UICollectionViewController {
     
     let viewModel = MoviewTBVViewModel()
-    let viewModelMoreInfo = ImageDataFromURL()
-    let imageDataFromURL = ImageDataFromURL()
-    
+
     private var selectedData: DataResult?
     
     override func viewDidLoad() {
@@ -34,8 +32,8 @@ class MoviesCollectionViewController: UICollectionViewController {
     }
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.startUnpagination()
-            viewModel.getData { [weak self] in
+//            viewModel.startUnpagination()
+            viewModel.getData {
                 collectionView.reloadData()
                 
             }
@@ -49,18 +47,13 @@ class MoviesCollectionViewController: UICollectionViewController {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! MoviesCollectionViewCell
-            
-            if cell.collectionImage == nil {
-                cell.collectionActctivitiIndicatorImageView.startAnimating()
-            } else {
-                    cell.collectionImage.kf.indicatorType = .activity
-                    let imageView = imageDataFromURL.downloadImage(viewModel.partTwoImageUrl(at: indexPath), indexPath: indexPath)
-                    cell.collectionImage.image = imageView!.image
-                
+               
+                cell.collectionImage.kf.indicatorType = .activity
+                cell.collectionImage.setImage(secondPartURL: viewModel.partTwoImageUrl(at: indexPath))
                 let title = viewModel.titleForRow(at: indexPath)
                 cell.collectionTitle.text = title
                 cell.collectionActctivitiIndicatorImageView.isHidden = true
-            }
+            
             return cell
         }
     }

@@ -10,8 +10,7 @@ import UIKit
 class MoviesTableViewController: UITableViewController {
 
     private let viewModel = MoviewTBVViewModel()
-    private let viewModelMoreInfo = ImageDataFromURL()
-    
+   
     private var selectedData: DataResult?
     
     private lazy var searchController: UISearchController = {
@@ -47,9 +46,8 @@ class MoviesTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.startUnpagination()
-            viewModel.getData { [weak self] in
-            self?.tableView.reloadData()
+            viewModel.getData { 
+            tableView.reloadData()
             }
         }
     }

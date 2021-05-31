@@ -11,7 +11,7 @@ class SearchTableViewController: UITableViewController {
     
     
     let viewModel = ModelSearch()
-    let viewModelMoreInfo = ImageDataFromURL()
+    
     private var filterArraySearch = [DataSearch]()
     let searchResultController = UISearchController(searchResultsController: nil)
     private var searchBarIsEmpty: Bool {

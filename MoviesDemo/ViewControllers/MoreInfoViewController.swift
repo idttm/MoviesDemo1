@@ -9,7 +9,7 @@ import UIKit
 
 class MoreInfoViewController: UIViewController {
 
-    private let modelMoreInfo = ImageDataFromURL()
+    
     var currentDataForMoreInfo: DataResult?
     var currentDataForMoreInfoSearch: DataSearch?
     
@@ -23,14 +23,14 @@ class MoreInfoViewController: UIViewController {
         if currentDataForMoreInfoSearch == nil { titleLable.text = currentDataForMoreInfo?.title
             overviewLabel.text = currentDataForMoreInfo?.overview
             ratingLabel.text = String(currentDataForMoreInfo!.voteAverage)
-            guard let imageData = modelMoreInfo.imageTitle(currentDataForMoreInfo!.backdropPath)  else { return }
-            imageView.image = UIImage(data: imageData)
+            
+            imageView.setImage(secondPartURL: currentDataForMoreInfo!.backdropPath)
         }  else {
             titleLable.text = currentDataForMoreInfoSearch?.title
             overviewLabel.text = currentDataForMoreInfoSearch?.overview
             ratingLabel.text = String(currentDataForMoreInfoSearch!.voteAverage)
-            guard let imageData = modelMoreInfo.imageTitle(currentDataForMoreInfoSearch!.backdropPath!) else {return}
-            imageView.image = UIImage(data: imageData)
+            
+            imageView.setImage(secondPartURL: (currentDataForMoreInfoSearch?.backdropPath)!)
         }
     }
 }

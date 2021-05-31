@@ -13,5 +13,5 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var collectionImage: UIImageView!
     @IBOutlet weak var colletctionActivitiIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionActctivitiIndicatorImageView: UIActivityIndicatorView!
-    
+
 }
