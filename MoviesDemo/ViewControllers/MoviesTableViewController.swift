@@ -46,7 +46,7 @@ class MoviesTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.getData { 
+            viewModel.getData {
             tableView.reloadData()
             }
         }
@@ -73,10 +73,15 @@ class MoviesTableViewController: UITableViewController {
         } else {
             selectedData = viewModel.dataResult(at: indexPath)
         }
+        
             performSegue(withIdentifier: "showMovie", sender: nil)
         
     }
     
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        
+//    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "showMovie" else { return }

@@ -23,11 +23,16 @@
 		3EAD212F265BD42500A17E19 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD212E265BD42500A17E19 /* SearchTableViewController.swift */; };
 		3EB6CD8A265EE0740028278C /* MoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB6CD89265EE0740028278C /* MoviesCollectionViewController.swift */; };
 		3EB6CD8C265EE47D0028278C /* MoviesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB6CD8B265EE47D0028278C /* MoviesCollectionViewCell.swift */; };
+		3EB7F5FA2667CD7100CFF39A /* MoreInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB7F5F92667CD7100CFF39A /* MoreInfoTableViewController.swift */; };
 		3EB917132652B9D0003D6ACD /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB917122652B9D0003D6ACD /* CoreData.swift */; };
 		3EB9E79C264C47F400FD59B5 /* DataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9E79B264C47F400FD59B5 /* DataStruct.swift */; };
 		3EB9E7A2264C573000FD59B5 /* MoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9E7A1264C573000FD59B5 /* MoreInfoViewController.swift */; };
 		3EB9E7A4264C5A9900FD59B5 /* MoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9E7A3264C5A9900FD59B5 /* MoviesTableViewController.swift */; };
 		3EBEA5372664186A0035A0F5 /* SimilarDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEA5362664186A0035A0F5 /* SimilarDataStruct.swift */; };
+		3EC26D162667E7DF00794843 /* MoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC26D142667E7DF00794843 /* MoreInfoCell.swift */; };
+		3EC26D172667E7DF00794843 /* MoreInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC26D152667E7DF00794843 /* MoreInfoCell.xib */; };
+		3EC26D1B266809AC00794843 /* TitleAndRatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC26D19266809AC00794843 /* TitleAndRatingTableViewCell.swift */; };
+		3EC26D1C266809AC00794843 /* TitleAndRatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC26D1A266809AC00794843 /* TitleAndRatingTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,11 +53,16 @@
 		3EAD212E265BD42500A17E19 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		3EB6CD89265EE0740028278C /* MoviesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewController.swift; sourceTree = "<group>"; };
 		3EB6CD8B265EE47D0028278C /* MoviesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewCell.swift; sourceTree = "<group>"; };
+		3EB7F5F92667CD7100CFF39A /* MoreInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoTableViewController.swift; sourceTree = "<group>"; };
 		3EB917122652B9D0003D6ACD /* CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		3EB9E79B264C47F400FD59B5 /* DataStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStruct.swift; sourceTree = "<group>"; };
 		3EB9E7A1264C573000FD59B5 /* MoreInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoViewController.swift; sourceTree = "<group>"; };
 		3EB9E7A3264C5A9900FD59B5 /* MoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableViewController.swift; sourceTree = "<group>"; };
 		3EBEA5362664186A0035A0F5 /* SimilarDataStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarDataStruct.swift; sourceTree = "<group>"; };
+		3EC26D142667E7DF00794843 /* MoreInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoCell.swift; sourceTree = "<group>"; };
+		3EC26D152667E7DF00794843 /* MoreInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreInfoCell.xib; sourceTree = "<group>"; };
+		3EC26D19266809AC00794843 /* TitleAndRatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndRatingTableViewCell.swift; sourceTree = "<group>"; };
+		3EC26D1A266809AC00794843 /* TitleAndRatingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleAndRatingTableViewCell.xib; sourceTree = "<group>"; };
 		B2CA1168494C76A2D7F21F21 /* Pods-MoviesDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesDemo.release.xcconfig"; path = "Target Support Files/Pods-MoviesDemo/Pods-MoviesDemo.release.xcconfig"; sourceTree = "<group>"; };
 		B5ACB8388D7AF05396477FE1 /* Pods_MoviesDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoviesDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB9639D043A8F8EDD44E0CE1 /* Pods-MoviesDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesDemo.debug.xcconfig"; path = "Target Support Files/Pods-MoviesDemo/Pods-MoviesDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,12 +167,22 @@
 			isa = PBXGroup;
 			children = (
 				3E69FACC264C435200310370 /* ViewController.swift */,
-				3EB9E7A1264C573000FD59B5 /* MoreInfoViewController.swift */,
+				3EB7F5F82667CD3B00CFF39A /* MoreInfoFolder */,
 				3EAD212E265BD42500A17E19 /* SearchTableViewController.swift */,
 				3EB9E7A3264C5A9900FD59B5 /* MoviesTableViewController.swift */,
 				3E67AC2C265FA971002F473A /* CollectionView */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3EB7F5F82667CD3B00CFF39A /* MoreInfoFolder */ = {
+			isa = PBXGroup;
+			children = (
+				3EB9E7A1264C573000FD59B5 /* MoreInfoViewController.swift */,
+				3EB7F5F92667CD7100CFF39A /* MoreInfoTableViewController.swift */,
+				3EC26D182668097A00794843 /* CellForMoreInfoTV */,
+			);
+			name = MoreInfoFolder;
 			sourceTree = "<group>";
 		};
 		3EB917112652B993003D6ACD /* CoreData */ = {
@@ -171,6 +191,17 @@
 				3EB917122652B9D0003D6ACD /* CoreData.swift */,
 			);
 			name = CoreData;
+			sourceTree = "<group>";
+		};
+		3EC26D182668097A00794843 /* CellForMoreInfoTV */ = {
+			isa = PBXGroup;
+			children = (
+				3EC26D142667E7DF00794843 /* MoreInfoCell.swift */,
+				3EC26D152667E7DF00794843 /* MoreInfoCell.xib */,
+				3EC26D19266809AC00794843 /* TitleAndRatingTableViewCell.swift */,
+				3EC26D1A266809AC00794843 /* TitleAndRatingTableViewCell.xib */,
+			);
+			name = CellForMoreInfoTV;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +263,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EC26D172667E7DF00794843 /* MoreInfoCell.xib in Resources */,
 				3E69FAD8264C435B00310370 /* LaunchScreen.storyboard in Resources */,
+				3EC26D1C266809AC00794843 /* TitleAndRatingTableViewCell.xib in Resources */,
 				3E69FAD5264C435B00310370 /* Assets.xcassets in Resources */,
 				3E69FAD0264C435200310370 /* Main.storyboard in Resources */,
 			);
@@ -288,14 +321,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E69FACD264C435200310370 /* ViewController.swift in Sources */,
+				3EC26D162667E7DF00794843 /* MoreInfoCell.swift in Sources */,
 				3E76C124265026E700EF6DD4 /* ImageDataFromURL.swift in Sources */,
 				3E69FAC9264C435200310370 /* AppDelegate.swift in Sources */,
 				3EB917132652B9D0003D6ACD /* CoreData.swift in Sources */,
 				3EB9E79C264C47F400FD59B5 /* DataStruct.swift in Sources */,
 				3E6E46B3265954C30042D40E /* MoviewTBVViewModel.swift in Sources */,
+				3EB7F5FA2667CD7100CFF39A /* MoreInfoTableViewController.swift in Sources */,
 				3E69FAE1264C440D00310370 /* NetworkManager.swift in Sources */,
 				3EAD212F265BD42500A17E19 /* SearchTableViewController.swift in Sources */,
 				3EB6CD8C265EE47D0028278C /* MoviesCollectionViewCell.swift in Sources */,
+				3EC26D1B266809AC00794843 /* TitleAndRatingTableViewCell.swift in Sources */,
 				3E6E46B5265ABFEE0042D40E /* ModelSearch.swift in Sources */,
 				3EBEA5372664186A0035A0F5 /* SimilarDataStruct.swift in Sources */,
 				3EB6CD8A265EE0740028278C /* MoviesCollectionViewController.swift in Sources */,

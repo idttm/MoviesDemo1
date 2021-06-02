@@ -11,6 +11,7 @@ class SearchTableViewController: UITableViewController {
     
     
     let viewModel = ModelSearch()
+    private var searchData: DataSearch?
     
     private var filterArraySearch = [DataSearch]()
     let searchResultController = UISearchController(searchResultsController: nil)
@@ -19,9 +20,10 @@ class SearchTableViewController: UITableViewController {
         return text.isEmpty
     }
     private var isFiltering: Bool {
+        tableView.reloadData()
         return searchResultController.isActive && !searchBarIsEmpty
     }
-    private var selectedMovie: DataSearch?
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -30,20 +32,25 @@ class SearchTableViewController: UITableViewController {
         searchResultController.searchResultsUpdater = self
         searchResultController.searchBar.placeholder = "Search"
         searchResultController.obscuresBackgroundDuringPresentation = false
-    }
+            }
     // MARK: - Table view data source
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterArraySearch.count
+        return viewModel.numberOfRows
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
-        cell.textLabel?.text = filterArraySearch[indexPath.row].title
+       
+        cell.textLabel?.text = viewModel.dataResult(at: indexPath).title
+        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedMovie = viewModel.dataResult(at: indexPath)
+        searchData = viewModel.dataResult(at: indexPath)
         performSegue(withIdentifier: "moreInfo", sender: nil)
         
     }
@@ -53,23 +60,33 @@ class SearchTableViewController: UITableViewController {
         guard let moreVC = segue.destination as? MoreInfoViewController else {return}
         let indexPath = tableView.indexPathForSelectedRow!
         if isFiltering {
-            moreVC.currentDataForMoreInfoSearch = filterArraySearch[indexPath.row]
+            moreVC.currentDataForMoreInfoSearch = searchData
+        }
+    }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if  indexPath.row == viewModel.numberOfRows - 1 {
+            viewModel.getData(searchResultController.searchBar.text){
+            tableView.reloadData()
+            }
         }
     }
 }
 extension SearchTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.getData(searchResultController.searchBar.text!, completio: { [weak self] in
-            self?.tableView.reloadData()
-        })
-        filterContentForSearch(searchController.searchBar.text!)
+        viewModel.removeData()
+        if isFiltering {
+            viewModel.getData(searchResultController.searchBar.text!) { [weak self] in
+                self?.tableView.reloadData()
+                print(self?.viewModel.numberOfRows)
+            }
+        }
+        
     }
-    
-    private func filterContentForSearch(_ searchText: String) {
-        let  arrayDataTitle = viewModel.searchArrayTitle()
-        filterArraySearch = arrayDataTitle.filter({ titleSearch in
-            return titleSearch.title.lowercased().contains(searchText.lowercased())
-        })
-        tableView.reloadData()
-    }
+//    private func filterContentForSearch(_ searchText: String) {
+//        let  arrayDataTitle = viewModel.searchArrayTitle()
+//        filterArraySearch = arrayDataTitle.filter({ titleSearch in
+//            return titleSearch.title.lowercased().contains(searchText.lowercased())
+//        })
+//        tableView.reloadData()
+//    }
 }
