@@ -11,7 +11,9 @@ import Kingfisher
 
 extension UIImageView {
     func setImage(secondPartURL: String) {
+        
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + secondPartURL) else { return }
-        self.kf.setImage(with: url)
+        kf.setImage(with: url)
+        
     }
 }

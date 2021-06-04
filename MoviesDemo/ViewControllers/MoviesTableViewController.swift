@@ -75,18 +75,15 @@ class MoviesTableViewController: UITableViewController {
         }
         
             performSegue(withIdentifier: "showMovie", sender: nil)
-        
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        
-//    }
+ 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "showMovie" else { return }
-        guard let moreVC = segue.destination as? MoreInfoViewController else {return}
+        guard let moreVC = segue.destination as? MoreInfoTableViewController else {return}
         moreVC.currentDataForMoreInfo = selectedData
+        moreVC.props = MoreInfoTableViewController.Props(path: selectedData?.posterPath, size: CGSize(width: 268, height: 800))
     }
 }
 extension MoviesTableViewController: UISearchResultsUpdating {

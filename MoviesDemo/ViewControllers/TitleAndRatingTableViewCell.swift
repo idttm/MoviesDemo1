@@ -10,8 +10,6 @@ import UIKit
 class TitleAndRatingTableViewCell: UITableViewCell {
 
     
-  
-    
     static let indetifire = "TitleAndRatingTableViewCell"
     
     override func awakeFromNib() {

@@ -6,12 +6,34 @@
 //
 
 import UIKit
+import Kingfisher
+
+
 
 class MoreInfoTableViewController: UITableViewController {
     
-
+    var currentDataForMoreInfo: DataResult?
+    
+    struct Props {
+        var path: String?
+        var size: CGSize?
+    }
+    
+  var props: Props?
+    
+//    init(props: Props) {
+//        self.props = props
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.register(MoreInfoCell.nib(), forCellReuseIdentifier: MoreInfoCell.indetifire)
         tableView.register(TitleAndRatingTableViewCell.self, forCellReuseIdentifier: TitleAndRatingTableViewCell.indetifire)
         
@@ -37,25 +59,42 @@ class MoreInfoTableViewController: UITableViewController {
         
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MoreInfoCell.indetifire, for: indexPath) as! MoreInfoCell
-            cell.imageView?.image = UIImage(systemName: "paperplane.circle")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MoreInfoCell.indetifire, for: indexPath) as? MoreInfoCell
+            else { return UITableViewCell() }
+           
+            cell.render(props: props!)
+            
             return cell
         }
+        
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: TitleAndRatingTableViewCell.indetifire, for: indexPath) as! TitleAndRatingTableViewCell
-            cell.textLabel?.text = "Title"
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.font = UIFont(name: "Helvetica", size: 30)
+            cell.textLabel?.text = currentDataForMoreInfo?.title
             return cell
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: TitleAndRatingTableViewCell.indetifire, for: indexPath) as! TitleAndRatingTableViewCell
-            cell.textLabel?.text = "Raiting"
+            cell.textLabel?.font = UIFont(name: "Helvetica", size: 17)
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.text =  "Vote Average \(String(currentDataForMoreInfo!.voteAverage))"
             return cell
         }
-           let cell = tableView.dequeueReusableCell(withIdentifier: TitleAndRatingTableViewCell.indetifire, for: indexPath) as! TitleAndRatingTableViewCell
-           cell.textLabel?.text = "description"
-           return cell
-           }
+        let cell = tableView.dequeueReusableCell(withIdentifier: TitleAndRatingTableViewCell.indetifire, for: indexPath) as! TitleAndRatingTableViewCell
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.font = UIFont(name: "Helvetica", size: 17)
+        cell.textLabel?.textAlignment = .justified
+        cell.textLabel?.text = currentDataForMoreInfo?.overview
+        
+        return cell
+    }
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let newSize = CGSize(width: 268, height: 800)
+        self.props?.size = newSize
+        tableView.reloadData()
+    }
+    
 }
