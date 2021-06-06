@@ -30,7 +30,7 @@ class MoreInfoViewController: UIViewController {
             overviewLabel.text = currentDataForMoreInfoSearch?.overview
             ratingLabel.text = String(currentDataForMoreInfoSearch!.voteAverage)
             
-            imageView.setImage(secondPartURL: (currentDataForMoreInfoSearch?.backdropPath)!)
+            imageView.setImage(secondPartURL: currentDataForMoreInfoSearch!.posterPath!)
         }
     }
 }

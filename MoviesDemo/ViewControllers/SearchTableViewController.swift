@@ -14,30 +14,29 @@ class SearchTableViewController: UITableViewController {
     private var searchData: DataSearch?
     
     private var filterArraySearch = [DataSearch]()
-    let searchResultController = UISearchController(searchResultsController: nil)
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchResultController.searchBar.text else {return false}
-        return text.isEmpty
-    }
-    private var isFiltering: Bool {
-        tableView.reloadData()
-        return searchResultController.isActive && !searchBarIsEmpty
-    }
+    
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.searchController = searchResultController
+    private lazy var searchResultController: UISearchController = {
+        let searchResultController = UISearchController(searchResultsController: nil)
         searchResultController.searchResultsUpdater = self
         searchResultController.searchBar.placeholder = "Search"
         searchResultController.obscuresBackgroundDuringPresentation = false
+        return searchResultController
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        activityIndicator.isHidden = true
+        addSearchController()
             }
-    // MARK: - Table view data source
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+    private func addSearchController() {
+        navigationItem.searchController = searchResultController
+        definesPresentationContext = true
     }
+    // MARK: - Table view data source
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRows
     }
@@ -59,8 +58,9 @@ class SearchTableViewController: UITableViewController {
         guard segue.identifier == "moreInfo" else { return }
         guard let moreVC = segue.destination as? MoreInfoViewController else {return}
         let indexPath = tableView.indexPathForSelectedRow!
-        if isFiltering {
+        if viewModel.isFiltering(at: searchResultController) {
             moreVC.currentDataForMoreInfoSearch = searchData
+            print(searchData)
         }
     }
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -73,20 +73,7 @@ class SearchTableViewController: UITableViewController {
 }
 extension SearchTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.removeData()
-        if isFiltering {
-            viewModel.getData(searchResultController.searchBar.text!) { [weak self] in
-                self?.tableView.reloadData()
-                print(self?.viewModel.numberOfRows)
-            }
-        }
+        viewModel.launchSearch(text: searchResultController.searchBar.text, searchController: searchResultController, tableView: tableView)
         
     }
-//    private func filterContentForSearch(_ searchText: String) {
-//        let  arrayDataTitle = viewModel.searchArrayTitle()
-//        filterArraySearch = arrayDataTitle.filter({ titleSearch in
-//            return titleSearch.title.lowercased().contains(searchText.lowercased())
-//        })
-//        tableView.reloadData()
-//    }
 }

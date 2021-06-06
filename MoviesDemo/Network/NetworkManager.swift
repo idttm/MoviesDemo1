@@ -33,7 +33,7 @@ class NetworkMoviesManager {
    
     func gettingDataSearchFromJSON(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
         
-        let urlString =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=1&include_adult=false&page=\(page)"
+        let urlString =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=\(page)&include_adult=false"
         self.fetchData(model: SearchData.self, urlString: urlString) { [weak self] result in
             switch result {
             case .success(let model):

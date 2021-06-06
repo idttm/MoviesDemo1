@@ -92,9 +92,12 @@ class MoreInfoTableViewController: UITableViewController {
         return cell
     }
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let newSize = CGSize(width: 268, height: 800)
-        self.props?.size = newSize
-        tableView.reloadData()
+//        
+//        if scrollView.isDragging  {
+//        let newSize = CGSize(width: 268, height: 400)
+//        self.props?.size = newSize
+//        tableView.reloadData()
+//        }
     }
     
 }

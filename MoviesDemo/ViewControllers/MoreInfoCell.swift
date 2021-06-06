@@ -37,10 +37,8 @@ class MoreInfoCell: UITableViewCell {
     
     func render(props: MoreInfoTableViewController.Props) {
         myImageView.translatesAutoresizingMaskIntoConstraints = false
-        print("\(myImageView.setImage(secondPartURL: props.path!))")
-        print("\(props.size!.height))")
-        print("\(props.size!.width))")
-        print("\(props.path)")
+       
+        myImageView.contentMode = .scaleAspectFill
         myImageView.setImage(secondPartURL: props.path!)
         NSLayoutConstraint.activate([
             myImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),

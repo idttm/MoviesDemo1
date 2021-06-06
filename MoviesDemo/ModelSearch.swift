@@ -5,7 +5,7 @@
 //  Created by Andrew Cheberyako on 23.05.2021.
 //
 
-import Foundation
+import UIKit
 
 class ModelSearch {
     
@@ -34,12 +34,41 @@ class ModelSearch {
     func dataResult(at indexPath: IndexPath) -> DataSearch {
        data[indexPath.row]
     }
-    func removeData() {
+    func removerData() {
         data.removeAll()
     }
     
     func searchArrayTitle() -> [DataSearch] {
         return data
+    }
+    func antiSpam(text: String) -> Bool {
+        let text = text
+        let characters = Array(text)
+        if characters.count > 2 {
+            return true
+        }
+        return false
+    }
+    private func searchBarIsEmpty(at seachController: UISearchController) -> Bool {
+        guard let text = seachController.searchBar.text else {return false }
+        return text.isEmpty
+    }
+    func isFiltering (at seachController: UISearchController) -> Bool {
+        return seachController.isActive && !searchBarIsEmpty(at: seachController)
+    }
+    func launchSearch(text: String?, searchController: UISearchController, tableView: UITableView) {
+       removerData()
+        guard let newSearchText = text?.replacingOccurrences(of: " ", with: "%20") else {return}
+        if isFiltering(at: searchController) && antiSpam(text: newSearchText) {
+
+            print(newSearchText)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.getData(newSearchText) { [weak self] in
+                    tableView.reloadData()
+                }
+            }
+            
+        }
     }
     
 }

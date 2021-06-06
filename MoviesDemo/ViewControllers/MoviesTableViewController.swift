@@ -83,7 +83,7 @@ class MoviesTableViewController: UITableViewController {
         guard segue.identifier == "showMovie" else { return }
         guard let moreVC = segue.destination as? MoreInfoTableViewController else {return}
         moreVC.currentDataForMoreInfo = selectedData
-        moreVC.props = MoreInfoTableViewController.Props(path: selectedData?.posterPath, size: CGSize(width: 268, height: 800))
+        moreVC.props = MoreInfoTableViewController.Props(path: selectedData?.posterPath, size: CGSize(width: 268, height: 585))
     }
 }
 extension MoviesTableViewController: UISearchResultsUpdating {
