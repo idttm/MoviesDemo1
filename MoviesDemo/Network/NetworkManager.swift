@@ -13,6 +13,53 @@ enum NetworkError: Error {
     case parsingFailed
 }
 
+protocol Strategy {
+    func gettingData<T:Decodable>(page: Int, query: String, completion: @escaping (Result<[T.Type],Error>) -> Void)
+}
+
+struct DataFromJSON {
+    
+    let strategy: Strategy
+    
+    func gettingData<T:Decodable>(page: Int, query: String, completion: @escaping (Result<[T.Type],Error>) -> Void) {
+        self.strategy.gettingData(page: page, query: query, completion:  completion)
+    }
+    
+}
+class similarData: Strategy {
+    let networkManager = NetworkMoviesManager()
+    func gettingData<T>(page: Int, query: String, completion: @escaping (Result<[T.Type], Error>) -> Void) where T : Decodable {
+        let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
+        networkManager.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
+            switch result {
+            case .success(let model):
+                completion(.success(model.results))
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+        }
+    }
+}
+
+class searchData: Strategy {
+    let networkManager = NetworkMoviesManager()
+    func gettingData<T>(page: Int, query: String, completion: @escaping (Result<[T.Type], Error>) -> Void) where T : Decodable {
+        let urlString =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=\(page)&include_adult=false"
+        networkManager.fetchData(model: SearchData.self, urlString: urlString) { [weak self] result in
+            switch result {
+            case .success(let model):
+                completion(.success(model.results))
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+        }
+    }
+}
+
+
+
 class NetworkMoviesManager {
 
     func gettingDataFromJSON(page: Int, completion: @escaping (Result<[DataResult],Error>) -> Void) {
@@ -36,6 +83,19 @@ class NetworkMoviesManager {
         let urlString =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=\(page)&include_adult=false"
         self.fetchData(model: SearchData.self, urlString: urlString) { [weak self] result in
             switch result {
+            case .success(let model):
+                completion(.success(model.results))
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+        }
+    }
+    func gettingDataSimilarFromJSON(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
+        let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
+        self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
+            switch result {
+            
             case .success(let model):
                 completion(.success(model.results))
             case .failure(let error):

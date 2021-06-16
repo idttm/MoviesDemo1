@@ -11,8 +11,10 @@ class MoviewTBVViewModel {
     
     private let networkManager = NetworkMoviesManager()
     private var data: [DataResult] = []
+    private var dataSimilar: [ResultSimilar] = []
     private var filterArraySearch = [DataResult]()
     var numberOfRows: Int { data.count }
+    var numberOfRowsSimilar: Int {dataSimilar.count}
     var numberOfRowsSearch: Int { filterArraySearch.count }
     var page = 1
     
@@ -29,12 +31,27 @@ class MoviewTBVViewModel {
             }
         pagePlus()
     }
+    func getDataSimilar(completion: @escaping() -> Void ) {
+        self.networkManager.gettingDataSimilarFromJSON(page: page, query: "1726") { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataSimilar.append(contentsOf: data)
+            case .failure(let error):
+                break
+            }
+            completion()
+        }
+        pagePlus()
+    }
     func pagePlus() {
         page += 1
     }
     
     func titleForRow(at indexPath: IndexPath) -> String {
         data[indexPath.row].title
+    }
+    func titleForRowSimilar(at indexPath: IndexPath) -> String {
+        dataSimilar[indexPath.row].title
     }
     func dataResult(at indexPath: IndexPath) -> DataResult {
         data[indexPath.row]
