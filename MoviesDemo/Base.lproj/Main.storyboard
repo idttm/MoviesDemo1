@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vZS-7F-Za0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1pw-da-P9N">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -156,10 +156,10 @@
             </objects>
             <point key="canvasLocation" x="2446" y="-636"/>
         </scene>
-        <!--Emoji Explorer List View Controller-->
+        <!--Emoji Explorer View Controller-->
         <scene sceneID="Al6-GH-9Te">
             <objects>
-                <viewController id="P8Q-DN-305" customClass="EmojiExplorerListViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="P8Q-DN-305" customClass="EmojiExplorerViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6a4-dP-Of8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

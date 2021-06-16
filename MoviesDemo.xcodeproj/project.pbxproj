@@ -14,6 +14,7 @@
 		3E438C4E2670D28400510983 /* CombineNetworkDataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E438C4D2670D28400510983 /* CombineNetworkDataResult.swift */; };
 		3E6972DB2678F346009C0065 /* SimalarMoviewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6972DA2678F346009C0065 /* SimalarMoviewTableViewController.swift */; };
 		3E6972DD2678F47F009C0065 /* DataSimilar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6972DC2678F47F009C0065 /* DataSimilar.swift */; };
+		3E6972DF267A4779009C0065 /* EmojiExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6972DE267A4779009C0065 /* EmojiExplorerViewController.swift */; };
 		3E69FAC9264C435200310370 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69FAC8264C435200310370 /* AppDelegate.swift */; };
 		3E69FACB264C435200310370 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69FACA264C435200310370 /* SceneDelegate.swift */; };
 		3E69FACD264C435200310370 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69FACC264C435200310370 /* ViewController.swift */; };
@@ -53,6 +54,7 @@
 		3E438C4D2670D28400510983 /* CombineNetworkDataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineNetworkDataResult.swift; sourceTree = "<group>"; };
 		3E6972DA2678F346009C0065 /* SimalarMoviewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimalarMoviewTableViewController.swift; sourceTree = "<group>"; };
 		3E6972DC2678F47F009C0065 /* DataSimilar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSimilar.swift; sourceTree = "<group>"; };
+		3E6972DE267A4779009C0065 /* EmojiExplorerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiExplorerViewController.swift; sourceTree = "<group>"; };
 		3E69FAC5264C435200310370 /* MoviesDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E69FAC8264C435200310370 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E69FACA264C435200310370 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				3E6D7B4A2674EB4000B207F5 /* Emoji.swift */,
+				3E6972DE267A4779009C0065 /* EmojiExplorerViewController.swift */,
 				3E6D7B5226752D5600B207F5 /* EmojiExplorerListViewController.swift */,
 				3E6D7B4B2674EB4000B207F5 /* EmojiDetailViewController.swift */,
 			);
@@ -380,6 +383,7 @@
 				3EB9E79C264C47F400FD59B5 /* DataStruct.swift in Sources */,
 				3E6972DB2678F346009C0065 /* SimalarMoviewTableViewController.swift in Sources */,
 				3E6D7B4F2674EB4000B207F5 /* EmojiDetailViewController.swift in Sources */,
+				3E6972DF267A4779009C0065 /* EmojiExplorerViewController.swift in Sources */,
 				3E6E46B3265954C30042D40E /* MoviewTBVViewModel.swift in Sources */,
 				3E438C4E2670D28400510983 /* CombineNetworkDataResult.swift in Sources */,
 				3E438C4A266F9A1100510983 /* CombineNetworkManager.swift in Sources */,
