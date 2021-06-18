@@ -9,6 +9,7 @@ import UIKit
 
 class EmojiExplorerViewController: UIViewController {
     
+    let networkManager = NetworkMoviesManager()
     enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
         case recents, outline, list
         
@@ -40,11 +41,27 @@ class EmojiExplorerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         configureNavItem()
         configureHierarchy()
         configureDataSource()
         applyInitialSnapshots()
+        
+//        let searchTerm = "obi wan kenobi"
+//        let format = "wookiee"
+//
+//        var urlComponents = URLComponents()
+//        urlComponents.scheme = "https"
+//        urlComponents.host = "swapi.co"
+//        urlComponents.path = "/api/people"
+//        urlComponents.queryItems = [
+//           URLQueryItem(name: "search", value: searchTerm),
+//           URLQueryItem(name: "format", value: format)
+//        ]
+//
+//        print(urlComponents.url?.absoluteString)
+        
+        networkManager.makeURL(page: "1", apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .trending)
     }
 }
 

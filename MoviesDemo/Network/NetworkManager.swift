@@ -13,14 +13,43 @@ enum NetworkError: Error {
     case parsingFailed
 }
 
-
+enum responseTrandingMovies: String {
+    case trending = "trending/movie/week"
+    case search = "search/movie"
+}
 
 class NetworkMoviesManager {
-
+    
+    func makeURL(page: String,
+                 apiKey: String,
+                 requestOption: responseTrandingMovies,
+                 query: String? = nil
+    ) -> String? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.themoviedb.org"
+        components.path = "/3/\(requestOption.rawValue)"
+        if query != nil {
+            components.queryItems = [
+                URLQueryItem(name: "query", value: query)
+            ]
+            let url = components.url?.absoluteString
+            return url
+        }
+        components.queryItems = [
+            URLQueryItem(name: "api_key", value: apiKey),
+            URLQueryItem(name: "page", value: page)
+        ]
+        let url = components.url?.absoluteString
+        return url
+        
+    }
+    
     func gettingDataFromJSON(page: Int, completion: @escaping (Result<[DataResult],Error>) -> Void) {
-     
-        let urlString = "https://api.themoviedb.org/3/trending/movie/week?api_key=357c897a0e2f1679cd227af63c654745&page=\(page)"
-        self.fetchData(model: Test.self, urlString: urlString) { [weak self] result in
+        
+        let url = self.makeURL(page: String(page), apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .trending)
+        
+        self.fetchData(model: Test.self, urlString: url!) { [weak self] result in
             switch result {
             case .success(let model):
                 if model.page <= model.totalPages {
@@ -32,11 +61,10 @@ class NetworkMoviesManager {
             }
         }
     }
-   
+    
     func gettingDataSearchFromJSON(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
-        
-        let urlString =  "https://api.themoviedb.org/3/search/movie?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&query=\(query)&page=\(page)&include_adult=false"
-        self.fetchData(model: SearchData.self, urlString: urlString) { [weak self] result in
+        let urlString =  self.makeURL(page: String(page), apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .search, query: query)
+        self.fetchData(model: SearchData.self, urlString: urlString!) { [weak self] result in
             switch result {
             case .success(let model):
                 completion(.success(model.results))
@@ -46,6 +74,7 @@ class NetworkMoviesManager {
             }
         }
     }
+    
     func gettingDataSimilarFromJSON(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
         self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
@@ -59,9 +88,11 @@ class NetworkMoviesManager {
             }
         }
     }
+    
     func fetchData<T:Decodable>(model: T.Type, urlString: String, completion: @escaping (Result<T, Error>)  -> Void) {
         guard let url = URL(string: urlString) else {return}
         let session = URLSession(configuration: .default)
+        print(url)
         let task = session.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else {return}
             DispatchQueue.main.async {
@@ -83,6 +114,7 @@ class NetworkMoviesManager {
         }
         task.resume()
     }
+    
     func parseJSON<T:Decodable>(type: T.Type, data: Data) throws -> T {
         let decoder = JSONDecoder()
         return try decoder.decode(type, from: data)

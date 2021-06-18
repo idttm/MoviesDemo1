@@ -27,7 +27,7 @@ class ModelSearch {
         })
         pagePlus()
     }
-    
+
     func pagePlus() {
         page += 1
     }

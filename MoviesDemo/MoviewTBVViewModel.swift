@@ -31,18 +31,18 @@ class MoviewTBVViewModel {
             }
         pagePlus()
     }
-    func getDataSimilar(completion: @escaping() -> Void ) {
-        self.networkManager.gettingDataSimilarFromJSON(page: page, query: "1726") { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.dataSimilar.append(contentsOf: data)
-            case .failure(let error):
-                break
-            }
-            completion()
-        }
-        pagePlus()
-    }
+//    func getDataSimilar(completion: @escaping() -> Void ) {
+//        self.networkManager.gettingDataSimilarFromJSON(page: page, query: "1726") { [weak self] result in
+//            switch result {
+//            case .success(let data):
+//                self?.dataSimilar.append(contentsOf: data)
+//            case .failure(let error):
+//                break
+//            }
+//            completion()
+//        }
+//        pagePlus()
+//    }
     func pagePlus() {
         page += 1
     }

@@ -14,9 +14,9 @@ class SimalarMoviewTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getDataSimilar { [weak self] in
-            self?.tableView.reloadData()
-        }
+//        viewModel.getDataSimilar { [weak self] in
+//            self?.tableView.reloadData()
+//        }
 
     }
 
