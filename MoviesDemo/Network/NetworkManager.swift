@@ -47,6 +47,9 @@ class NetworkMoviesManager {
         return url
         
     }
+
+
+
     func gettingDataFromJSON(page: Int, week: Bool? = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
         var url: String
         
@@ -84,7 +87,7 @@ class NetworkMoviesManager {
             }
         }
     }
-    
+
     func gettingDataSimilarFromJSON(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
         self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
