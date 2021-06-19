@@ -9,19 +9,18 @@ import UIKit
 import Kingfisher
 
 class MoviesCollectionViewController: UICollectionViewController {
-    
     let viewModel = MoviewTBVViewModel()
-
     private var selectedData: DataResult?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Collection Movies"
-        viewModel.getData(week: true) { [weak self] in
+        viewModel.onDataUpdated = {[weak self] in
             self?.collectionView.reloadData()
-            
         }
+        viewModel.refresh()
     }
+
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -33,11 +32,7 @@ class MoviesCollectionViewController: UICollectionViewController {
     }
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-//            viewModel.startUnpagination()
-            viewModel.getData(week: true) {
-                collectionView.reloadData()
-                
-            }
+            viewModel.getNextPage()
         }
     }
     

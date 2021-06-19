@@ -8,13 +8,10 @@
 import UIKit
 
 class MoviesTableViewController: UITableViewController {
-
     private let viewModel = MoviewTBVViewModel()
-   
     private var selectedData: DataResult?
-    
     @IBOutlet weak var trandingButton: UIBarButtonItem!
-    var week = true
+
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -25,34 +22,22 @@ class MoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSearchController()
-        self.title = "Week tranding"
-        viewModel.getData(week: true) { [weak self] in
+        viewModel.onDataUpdated = { [weak self] in
             self?.tableView.reloadData()
         }
-        
+        addSearchController()
+        updateTitles()
+        viewModel.refresh()
     }
-    
+
+    func updateTitles() {
+        trandingButton.title = viewModel.title
+        title = viewModel.buttonTitle
+    }
+
     @IBAction func trandingButtonAction(_ sender: UIBarButtonItem) {
-        if trandingButton.title != "Week tranding" {
-            trandingButton.title = "Week tranding"
-            week = false
-            self.title = "Day tranding"
-            viewModel.pageDay = 1
-            viewModel.getData(week: false) { [weak self] in
-                self?.tableView.reloadData()
-            }
-            
-        } else {
-            trandingButton.title = "Day tranding"
-            week = true
-            self.title = "Week tranding"
-            viewModel.pageWeak = 1
-            viewModel.getData(week: true) { [weak self] in
-                self?.tableView.reloadData()
-            }
-            
-        }
+        viewModel.toggleTrandingMode()
+        updateTitles()
     }
     
     private func addSearchController() {
@@ -63,7 +48,6 @@ class MoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         if viewModel.isFiltering(at: searchController) {
             return viewModel.numberOfRowsSearch
         }
@@ -72,19 +56,15 @@ class MoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.getData(week: week) {
-            tableView.reloadData()
-            }
+            viewModel.getNextPage()
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-       
         if viewModel.isFiltering(at: searchController){
-            
             let title = viewModel.titleForRowSearch(at: indexPath)
-                cell.textLabel?.text = title
+            cell.textLabel?.text = title
         } else {
             let title = viewModel.titleForRow(at: indexPath)
             cell.textLabel?.text = title
@@ -93,14 +73,12 @@ class MoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
         if viewModel.isFiltering(at: searchController) {
             selectedData = viewModel.dataResultSearch(at: indexPath)
         } else {
             selectedData = viewModel.dataResult(at: indexPath)
         }
-        
-            performSegue(withIdentifier: "showMovie", sender: nil)
+        performSegue(withIdentifier: "showMovie", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -114,7 +92,7 @@ class MoviesTableViewController: UITableViewController {
 
 extension MoviesTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-       viewModel.filterContentForSearch(searchController.searchBar.text!)
+        viewModel.filterContentForSearch(searchController.searchBar.text!)
         tableView.reloadData()
     }
 }
