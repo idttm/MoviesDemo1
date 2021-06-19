@@ -16,36 +16,66 @@ class MoviewTBVViewModel {
     var numberOfRows: Int { data.count }
     var numberOfRowsSimilar: Int {dataSimilar.count}
     var numberOfRowsSearch: Int { filterArraySearch.count }
-    var page = 1
-    
-    func getData(completio: @escaping() -> Void) {
+//    var pageWeak = 1
+    var pageDay = 1
+    var pageWeak = 1
+    func getData(week: Bool, completio: @escaping() -> Void) {
         
-        self.networkManager.gettingDataFromJSON(page: page) { [weak self] result in
-                switch result {
-                case .success(let data):
-                    self?.data.append(contentsOf: data)
-                case .failure(let error):
-                    break
-                }
-                completio()
+        switch week {
+        
+        case true:
+            
+            if pageWeak == 1 {
+                data.removeAll()
             }
+            self.networkManager.gettingDataFromJSON(page: pageWeak, week: week) { [weak self] result in
+                    switch result {
+                    case .success(let data):
+                        self?.data.append(contentsOf: data)
+                    case .failure(let error):
+                        break
+                    }
+                    completio()
+                }
+            pagePlus()
+        case false:
+            if pageDay == 1 {
+                data.removeAll()
+            }
+            self.networkManager.gettingDataFromJSON(page: pageDay, week: week) { [weak self] result in
+                    switch result {
+                    case .success(let data):
+                        self?.data.append(contentsOf: data)
+                    case .failure(let error):
+                        break
+                    }
+                    completio()
+                }
+            
+            pagePlus1()
+        }
+        
+    }
+    func getDataSimilar(completion: @escaping() -> Void ) {
+        self.networkManager.gettingDataSimilarFromJSON(page: pageWeak, query: "1726") { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.dataSimilar.append(contentsOf: data)
+            case .failure(let error):
+                break
+            }
+            completion()
+        }
         pagePlus()
     }
-//    func getDataSimilar(completion: @escaping() -> Void ) {
-//        self.networkManager.gettingDataSimilarFromJSON(page: page, query: "1726") { [weak self] result in
-//            switch result {
-//            case .success(let data):
-//                self?.dataSimilar.append(contentsOf: data)
-//            case .failure(let error):
-//                break
-//            }
-//            completion()
-//        }
-//        pagePlus()
-//    }
+    
     func pagePlus() {
-        page += 1
+        pageWeak += 1
     }
+    func pagePlus1() {
+        pageDay += 1
+    }
+
     
     func titleForRow(at indexPath: IndexPath) -> String {
         data[indexPath.row].title

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Title-->
         <scene sceneID="JYr-De-FWa">
             <objects>
                 <tableViewController storyboardIdentifier="search" id="ERT-Xe-T4P" customClass="MoviesTableViewController" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -32,14 +32,21 @@
                             <outlet property="delegate" destination="ERT-Xe-T4P" id="Ex5-Qt-Hco"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="mcy-C9-Y3U"/>
+                    <navigationItem key="navigationItem" title="Title" id="Lk0-PJ-zh5">
+                        <barButtonItem key="rightBarButtonItem" title="Day tranding" id="gup-iz-vVu">
+                            <connections>
+                                <action selector="trandingButtonAction:" destination="ERT-Xe-T4P" id="qZe-ug-V8b"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="trandingButton" destination="gup-iz-vVu" id="8Qn-bX-Odv"/>
                         <segue destination="Ig9-9H-SGi" kind="show" identifier="showMovie" id="3qH-62-i0b"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ww-Od-wXS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1335" y="-454"/>
+            <point key="canvasLocation" x="1394" y="-454"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="p5Y-7E-T8N">
@@ -180,13 +187,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="d1D-yN-M06">
-                            <rect key="frame" x="0.0" y="92.500000346790671" width="375" height="73"/>
+                        <activityIndicatorView key="tableHeaderView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="d1D-yN-M06">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cellTable" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="eE5-8d-5FM">
-                                <rect key="frame" x="0.0" y="24.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="97.5" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eE5-8d-5FM" id="gFK-Ro-l7J">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

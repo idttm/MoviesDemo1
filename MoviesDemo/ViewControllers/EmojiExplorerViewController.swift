@@ -61,7 +61,7 @@ class EmojiExplorerViewController: UIViewController {
 //
 //        print(urlComponents.url?.absoluteString)
         
-        networkManager.makeURL(page: "1", apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .trending)
+        networkManager.makeURL(page: "1", apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .trendingWeek)
     }
 }
 

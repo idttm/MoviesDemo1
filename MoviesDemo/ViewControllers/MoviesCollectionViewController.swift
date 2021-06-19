@@ -16,7 +16,7 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getData { [weak self] in
+        viewModel.getData(week: true) { [weak self] in
             self?.collectionView.reloadData()
             
         }
@@ -33,7 +33,7 @@ class MoviesCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
 //            viewModel.startUnpagination()
-            viewModel.getData {
+            viewModel.getData(week: true) {
                 collectionView.reloadData()
                 
             }

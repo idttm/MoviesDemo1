@@ -43,6 +43,7 @@
 		3EC26D172667E7DF00794843 /* MoreInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC26D152667E7DF00794843 /* MoreInfoCell.xib */; };
 		3EC26D1B266809AC00794843 /* TitleAndRatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC26D19266809AC00794843 /* TitleAndRatingTableViewCell.swift */; };
 		3EC26D1C266809AC00794843 /* TitleAndRatingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC26D1A266809AC00794843 /* TitleAndRatingTableViewCell.xib */; };
+		3ED09FD6267CA27200BD3BF4 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED09FD5267CA27200BD3BF4 /* DefaultData.swift */; };
 		3EFB0DBE266CBC1800A113E9 /* SimilarMoviesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB0DBC266CBC1800A113E9 /* SimilarMoviesCell.swift */; };
 		3EFB0DBF266CBC1800A113E9 /* SimilarMoviesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EFB0DBD266CBC1800A113E9 /* SimilarMoviesCell.xib */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		3EC26D152667E7DF00794843 /* MoreInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreInfoCell.xib; sourceTree = "<group>"; };
 		3EC26D19266809AC00794843 /* TitleAndRatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndRatingTableViewCell.swift; sourceTree = "<group>"; };
 		3EC26D1A266809AC00794843 /* TitleAndRatingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleAndRatingTableViewCell.xib; sourceTree = "<group>"; };
+		3ED09FD5267CA27200BD3BF4 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultData.swift; sourceTree = "<group>"; };
 		3EFB0DBC266CBC1800A113E9 /* SimilarMoviesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarMoviesCell.swift; sourceTree = "<group>"; };
 		3EFB0DBD266CBC1800A113E9 /* SimilarMoviesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SimilarMoviesCell.xib; sourceTree = "<group>"; };
 		B2CA1168494C76A2D7F21F21 /* Pods-MoviesDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesDemo.release.xcconfig"; path = "Target Support Files/Pods-MoviesDemo/Pods-MoviesDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				3E6972DC2678F47F009C0065 /* DataSimilar.swift */,
 				3E0C8F5D265564270030FFF1 /* SearchDataStruct.swift */,
 				3EBEA5362664186A0035A0F5 /* SimilarDataStruct.swift */,
+				3ED09FD5267CA27200BD3BF4 /* DefaultData.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				3E6972DB2678F346009C0065 /* SimalarMoviewTableViewController.swift in Sources */,
 				3E6D7B4F2674EB4000B207F5 /* EmojiDetailViewController.swift in Sources */,
 				3E6972DF267A4779009C0065 /* EmojiExplorerViewController.swift in Sources */,
+				3ED09FD6267CA27200BD3BF4 /* DefaultData.swift in Sources */,
 				3E6E46B3265954C30042D40E /* MoviewTBVViewModel.swift in Sources */,
 				3E438C4E2670D28400510983 /* CombineNetworkDataResult.swift in Sources */,
 				3E438C4A266F9A1100510983 /* CombineNetworkManager.swift in Sources */,

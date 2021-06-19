@@ -14,7 +14,8 @@ enum NetworkError: Error {
 }
 
 enum responseTrandingMovies: String {
-    case trending = "trending/movie/week"
+    case trendingWeek = "trending/movie/week"
+    case trendingDay = "trending/movie/day"
     case search = "search/movie"
 }
 
@@ -23,17 +24,19 @@ class NetworkMoviesManager {
     func makeURL(page: String,
                  apiKey: String,
                  requestOption: responseTrandingMovies,
-                 query: String? = nil
-    ) -> String? {
+                 query: String? = nil) -> String? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = "/3/\(requestOption.rawValue)"
         if query != nil {
             components.queryItems = [
-                URLQueryItem(name: "query", value: query)
+                URLQueryItem(name: "query", value: query),
+                URLQueryItem(name: "api_key", value: apiKey),
+                URLQueryItem(name: "page", value: page)
             ]
             let url = components.url?.absoluteString
+            
             return url
         }
         components.queryItems = [
@@ -44,12 +47,16 @@ class NetworkMoviesManager {
         return url
         
     }
-    
-    func gettingDataFromJSON(page: Int, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+    func gettingDataFromJSON(page: Int, week: Bool? = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+        var url: String
         
-        let url = self.makeURL(page: String(page), apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .trending)
+        if week == true {
+            url = self.makeURL(page: String(page), apiKey: apiKey, requestOption: .trendingWeek)!
+        } else {
+            url = self.makeURL(page: String(page), apiKey: apiKey, requestOption: .trendingDay)!
+        }
         
-        self.fetchData(model: Test.self, urlString: url!) { [weak self] result in
+        self.fetchData(model: Test.self, urlString: url) { [weak self] result in
             switch result {
             case .success(let model):
                 if model.page <= model.totalPages {
@@ -63,7 +70,8 @@ class NetworkMoviesManager {
     }
     
     func gettingDataSearchFromJSON(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
-        let urlString =  self.makeURL(page: String(page), apiKey: "357c897a0e2f1679cd227af63c654745", requestOption: .search, query: query)
+        let urlString =  self.makeURL(page: String(page), apiKey: apiKey, requestOption: .search, query: query)
+        print(urlString)
         self.fetchData(model: SearchData.self, urlString: urlString!) { [weak self] result in
             switch result {
             case .success(let model):
@@ -79,7 +87,6 @@ class NetworkMoviesManager {
         let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
         self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
             switch result {
-            
             case .success(let model):
                 completion(.success(model.results))
             case .failure(let error):
@@ -92,7 +99,6 @@ class NetworkMoviesManager {
     func fetchData<T:Decodable>(model: T.Type, urlString: String, completion: @escaping (Result<T, Error>)  -> Void) {
         guard let url = URL(string: urlString) else {return}
         let session = URLSession(configuration: .default)
-        print(url)
         let task = session.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else {return}
             DispatchQueue.main.async {
