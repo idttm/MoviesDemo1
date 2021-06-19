@@ -16,6 +16,7 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Collection Movies"
         viewModel.getData(week: true) { [weak self] in
             self?.collectionView.reloadData()
             

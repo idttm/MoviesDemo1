@@ -187,13 +187,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <activityIndicatorView key="tableHeaderView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="d1D-yN-M06">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cellTable" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="eE5-8d-5FM">
-                                <rect key="frame" x="0.0" y="97.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eE5-8d-5FM" id="gFK-Ro-l7J">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -208,7 +204,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="4JK-SS-MBs"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="d1D-yN-M06" id="c2q-4d-LmX"/>
                         <segue destination="wNU-dS-xoX" kind="show" identifier="moreInfo" id="ixq-ki-6mR"/>
                     </connections>
                 </tableViewController>
@@ -403,11 +398,11 @@
             </objects>
             <point key="canvasLocation" x="489" y="-453"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Search-->
         <scene sceneID="f5I-wm-7B6">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CvM-oQ-Jwm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="magnifyingglass" catalog="system" id="PzT-Ep-pWQ"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="PzT-Ep-pWQ"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="voA-Le-JFb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="iQW-hK-FQ7">
@@ -423,11 +418,11 @@
             </objects>
             <point key="canvasLocation" x="489" y="947"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Collection Movies-->
         <scene sceneID="nMC-bE-fRM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5cX-ko-Fof" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="tablecells" catalog="system" id="CbC-kX-ls5"/>
+                    <tabBarItem key="tabBarItem" title="Collection Movies" image="tablecells" catalog="system" id="CbC-kX-ls5"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="uhH-hp-2hu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3Su-u2-Obk">

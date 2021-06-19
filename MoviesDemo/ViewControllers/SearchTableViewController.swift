@@ -16,7 +16,7 @@ class SearchTableViewController: UITableViewController {
     private var filterArraySearch = [DataSearch]()
     
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     
     private lazy var searchResultController: UISearchController = {
         let searchResultController = UISearchController(searchResultsController: nil)
@@ -28,7 +28,7 @@ class SearchTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.isHidden = true
+        self.title = "Search"
         addSearchController()
             }
     private func addSearchController() {
