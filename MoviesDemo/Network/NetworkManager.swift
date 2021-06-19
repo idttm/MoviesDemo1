@@ -72,6 +72,8 @@ class NetworkMoviesManager {
     func gettingDataSearchFromJSON(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
         let urlString =  self.makeURL(page: String(page), apiKey: apiKey, requestOption: .search, query: query)
         print(urlString)
+        print(urlString)
+        print(urlString)
         self.fetchData(model: SearchData.self, urlString: urlString!) { [weak self] result in
             switch result {
             case .success(let model):
