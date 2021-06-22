@@ -8,6 +8,7 @@
 import UIKit
 
 class SearchTableViewController: UITableViewController {
+    
     let viewModel = ModelSearch()
     private var searchData: DataSearch?
     private var filterArraySearch = [DataSearch]()

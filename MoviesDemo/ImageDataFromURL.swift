@@ -8,7 +8,6 @@
 import UIKit
 import Kingfisher
 
-
 extension UIImageView {
     func setImage(secondPartURL: String) {
         

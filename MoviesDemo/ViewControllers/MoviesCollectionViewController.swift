@@ -9,6 +9,7 @@ import UIKit
 import Kingfisher
 
 class MoviesCollectionViewController: UICollectionViewController {
+    
     let viewModel = MoviewTBVViewModel()
     private var selectedData: DataResult?
     
@@ -30,6 +31,7 @@ class MoviesCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         return viewModel.numberOfRows
     }
+    
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
             viewModel.getNextPage()
@@ -40,10 +42,10 @@ class MoviesCollectionViewController: UICollectionViewController {
         if  indexPath.row == viewModel.numberOfRows - 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "activitiIndicatorCell", for: indexPath) as! MoviesCollectionViewCell
             cell.colletctionActivitiIndicator.startAnimating()
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! MoviesCollectionViewCell
-               
                 cell.collectionImage.kf.indicatorType = .activity
                 cell.collectionImage.setImage(secondPartURL: viewModel.partTwoImageUrl(at: indexPath))
                 let title = viewModel.titleForRow(at: indexPath)
@@ -57,12 +59,14 @@ class MoviesCollectionViewController: UICollectionViewController {
         selectedData = viewModel.dataResult(at: indexPath)
         performSegue(withIdentifier: "showMovie", sender: nil)
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "showMovie" else { return }
         guard let moreVC = segue.destination as? MoreInfoViewController else {return}
         moreVC.currentDataForMoreInfo = selectedData
     }
+    
 }
 extension MoviesCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -72,12 +76,15 @@ extension MoviesCollectionViewController: UICollectionViewDelegateFlowLayout {
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem * 2.5)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }

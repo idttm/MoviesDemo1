@@ -15,30 +15,13 @@ class MoreInfoTableViewController: UITableViewController {
     @IBOutlet weak var imageView: UIImageView!
     var currentDataForMoreInfo: DataResult?
     
-    struct Props {
-        var path: String?
-        var size: CGSize?
-    }
-    
     var headerView: UIView!
     private var newHiderLayer: CAShapeLayer!
     private var newHIderLayerImage = CAShapeLayer()
     private let headerHight: CGFloat = 540
     
     private let headerCut: CGFloat = 2
-    
-  var props: Props?
-    
-//    init(props: Props) {
-//        self.props = props
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,35 +31,21 @@ class MoreInfoTableViewController: UITableViewController {
         
     }
     func updateView() {
-       
+        
         tableView.backgroundColor = .gray
         headerView = tableView.tableHeaderView
         tableView.tableHeaderView = nil
         tableView.rowHeight = UITableView.automaticDimension
         tableView.addSubview(headerView)
-//        headerView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            headerView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 1),
-//            headerView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 1),
-//            headerView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 1),
-//            headerView.bottomAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 1),
-//            headerView.widthAnchor.constraint(equalToConstant: 245)
-//        
-//        ])
         headerView.layer.cornerRadius = 10
-            headerView.backgroundColor = .gray
+        headerView.backgroundColor = .gray
         imageView.layer.cornerRadius = 20
         imageView.kf.indicatorType = .activity
         imageView.setImage(secondPartURL: currentDataForMoreInfo!.posterPath)
-        
-        
-        
     
         newHiderLayer = CAShapeLayer()
         newHiderLayer.fillColor = UIColor.black.cgColor
         headerView.layer.mask = newHiderLayer
-        
-       
         
         let newHight = headerHight - headerCut / 2
         tableView.contentInset = UIEdgeInsets(top: newHight, left: 0, bottom: 0, right: 0)
@@ -93,7 +62,6 @@ class MoreInfoTableViewController: UITableViewController {
             
         }
         
-        
         headerView.frame = getHeadrFrame
         let cutDirection = UIBezierPath()
         cutDirection.move(to: CGPoint(x: 0, y: 0))
@@ -102,12 +70,11 @@ class MoreInfoTableViewController: UITableViewController {
         cutDirection.addLine(to: CGPoint(x: 0, y: getHeadrFrame.height - 1))
         newHiderLayer.path = cutDirection.cgPath
         
-        
     }
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.tableView.decelerationRate = UIScrollView.DecelerationRate.fast
-//        tableView.reloadData()
     }
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.setupNewView()
         tableView.reloadData()
@@ -123,9 +90,8 @@ class MoreInfoTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-       
-            return 3
+    
+        return 3
         
     }
     

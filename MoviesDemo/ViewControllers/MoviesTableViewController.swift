@@ -8,6 +8,7 @@
 import UIKit
 
 class MoviesTableViewController: UITableViewController {
+    
     private let viewModel = MoviewTBVViewModel()
     private var selectedData: DataResult?
     @IBOutlet weak var trandingButton: UIBarButtonItem!
@@ -86,7 +87,7 @@ class MoviesTableViewController: UITableViewController {
         guard segue.identifier == "showMovie" else { return }
         guard let moreVC = segue.destination as? MoreInfoTableViewController else {return}
         moreVC.currentDataForMoreInfo = selectedData
-        moreVC.props = MoreInfoTableViewController.Props(path: selectedData?.posterPath, size: CGSize(width: 268, height: 585))
+//        moreVC.props = MoreInfoTableViewController.Props(path: selectedData?.posterPath, size: CGSize(width: 268, height: 585))
     }
 }
 

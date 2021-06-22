@@ -17,7 +17,7 @@ class ModelSearch {
 
     func getData(_ textSearch: String?, completion: @escaping() -> Void) {
         guard let textSearch = textSearch else {return}
-        networkManager.gettingDataSearchFromJSON(page: page, query: textSearch, completion: { [weak self] result in
+        networkManager.getDataSearch(page: page, query: textSearch, completion: { [weak self] result in
             switch result {
             case .success(let data):
                     self?.data.append(contentsOf: data)

@@ -22,11 +22,11 @@ class MoviewTBVViewModel {
     var onDataUpdated: () -> Void = {}
 
     var title: String {
-        week ? "Week tranding" : "Day tranding"
+        week ? "Day tranding" : "Week tranding"
     }
 
     var buttonTitle: String {
-        week ? "Day tranding" : "Week tranding"
+        week ? "Week tranding" : "Day tranding"
     }
 
     func toggleTrandingMode() {
@@ -49,7 +49,7 @@ class MoviewTBVViewModel {
         if page == 1 {
             data.removeAll()
         }
-        self.networkManager.gettingDataFromJSON(page: page, week: week) { [weak self] result in
+        self.networkManager.getDataTrending(page: page, week: week) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.data.append(contentsOf: data)
@@ -63,7 +63,7 @@ class MoviewTBVViewModel {
     }
 
     func getDataSimilar(completion: @escaping() -> Void ) {
-        self.networkManager.gettingDataSimilarFromJSON(page: page, query: "1726") { [weak self] result in
+        self.networkManager.getDataSimilar(page: page, query: "1726") { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataSimilar.append(contentsOf: data)

@@ -50,7 +50,7 @@ class NetworkMoviesManager {
 
 
 
-    func gettingDataFromJSON(page: Int, week: Bool? = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+    func getDataTrending(page: Int, week: Bool = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
         var url: String
         
         if week == true {
@@ -58,12 +58,12 @@ class NetworkMoviesManager {
         } else {
             url = self.makeURL(page: String(page), apiKey: apiKey, requestOption: .trendingDay)!
         }
-        
         self.fetchData(model: Test.self, urlString: url) { [weak self] result in
             switch result {
             case .success(let model):
                 if model.page <= model.totalPages {
                     completion(.success(model.results))
+                    print(model.totalPages)
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -72,10 +72,8 @@ class NetworkMoviesManager {
         }
     }
     
-    func gettingDataSearchFromJSON(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
+    func getDataSearch(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
         let urlString =  self.makeURL(page: String(page), apiKey: apiKey, requestOption: .search, query: query)
-        print(urlString)
-        print(urlString)
         print(urlString)
         self.fetchData(model: SearchData.self, urlString: urlString!) { [weak self] result in
             switch result {
@@ -88,7 +86,7 @@ class NetworkMoviesManager {
         }
     }
 
-    func gettingDataSimilarFromJSON(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
+    func getDataSimilar(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
         self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
             switch result {

@@ -35,31 +35,25 @@ class MoreInfoCell: UITableViewCell {
         myImageView.kf.indicatorType = .activity
     }
     
-    func render(props: MoreInfoTableViewController.Props) {
-        myImageView.translatesAutoresizingMaskIntoConstraints = false
-       
-        myImageView.contentMode = .scaleAspectFill
-        myImageView.setImage(secondPartURL: props.path!)
-        NSLayoutConstraint.activate([
-            myImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            myImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            myImageView.trailingAnchor.constraint(equalTo:  contentView.trailingAnchor, constant: 0),
-            myImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-//            myImageView.heightAnchor.constraint(equalToConstant: 800),
-//            myImageView.widthAnchor.constraint(equalToConstant: 268)
-            myImageView.heightAnchor.constraint(equalToConstant: props.size!.height),
-            myImageView.widthAnchor.constraint(equalToConstant: props.size!.width)
-        ])
-        
-        
-    }
-    
-    
+//    func render(props: MoreInfoTableViewController.Props) {
+//        myImageView.translatesAutoresizingMaskIntoConstraints = false
+//        myImageView.contentMode = .scaleAspectFill
+//        myImageView.setImage(secondPartURL: props.path!)
+//        NSLayoutConstraint.activate([
+//            myImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+//            myImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+//            myImageView.trailingAnchor.constraint(equalTo:  contentView.trailingAnchor, constant: 0),
+//            myImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+//            myImageView.heightAnchor.constraint(equalToConstant: props.size!.height),
+//            myImageView.widthAnchor.constraint(equalToConstant: props.size!.width)
+//        ])
+//
+//
+//    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
 }
