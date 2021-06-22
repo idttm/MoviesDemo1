@@ -6,7 +6,7 @@
 import Foundation
 
 // MARK: - Test
-struct Test: Codable, Hashable {
+struct Test: Codable {
     let page: Int
     let results: [DataResult]
     let totalPages, totalResults: Int
@@ -19,34 +19,33 @@ struct Test: Codable, Hashable {
 }
 
 // MARK: - Result
-struct DataResult: Codable, Hashable {
-    let releaseDate: String
+struct DataResult: Codable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let originalLanguage, originalTitle, posterPath: String
-    let voteCount: Int
+    let originalLanguage, originalTitle, overview, posterPath: String
+    let releaseDate, title: String
     let video: Bool
-    let title: String
     let voteAverage: Double
-    let overview: String
+    let voteCount: Int
     let popularity: Double
     let mediaType: MediaType
 
     enum CodingKeys: String, CodingKey {
-        case releaseDate = "release_date"
         case adult
         case backdropPath = "backdrop_path"
         case genreIDS = "genre_ids"
         case id
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
+        case overview
         case posterPath = "poster_path"
-        case voteCount = "vote_count"
-        case video, title
+        case releaseDate = "release_date"
+        case title, video
         case voteAverage = "vote_average"
-        case overview, popularity
+        case voteCount = "vote_count"
+        case popularity
         case mediaType = "media_type"
     }
 }

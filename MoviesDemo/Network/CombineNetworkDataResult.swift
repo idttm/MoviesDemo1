@@ -18,6 +18,7 @@ extension MoviesManager{
     static func popularMovies() -> AnyPublisher<Test, Error> {
         return run(URLRequest(url: base))
     }
+    
     static func run<T: Decodable>(_ request: URLRequest) -> AnyPublisher<T, Error> {
         return agent.run(request)
             .map(\.value)

@@ -24,7 +24,7 @@ class MoreInfoViewController: UIViewController {
             overviewLabel.text = currentDataForMoreInfo?.overview
             ratingLabel.text = String(currentDataForMoreInfo!.voteAverage)
             
-            imageView.setImage(secondPartURL: currentDataForMoreInfo!.backdropPath)
+            imageView.setImage(secondPartURL: currentDataForMoreInfo!.backdropPath!)
         }  else {
             titleLable.text = currentDataForMoreInfoSearch?.title
             overviewLabel.text = currentDataForMoreInfoSearch?.overview

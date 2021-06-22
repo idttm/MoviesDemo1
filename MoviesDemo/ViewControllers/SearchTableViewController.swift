@@ -9,15 +9,10 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
     
-    
     let viewModel = ModelSearch()
     private var searchData: DataSearch?
-    
     private var filterArraySearch = [DataSearch]()
-    
-    
-    
-    
+
     private lazy var searchResultController: UISearchController = {
         let searchResultController = UISearchController(searchResultsController: nil)
         searchResultController.searchResultsUpdater = self
@@ -30,11 +25,22 @@ class SearchTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Search"
         addSearchController()
-            }
+
+        viewModel.onLoadingStateChanged = { [weak self] isLoading in
+            print(isLoading ? "Loading....." : "Finished")
+
+        }
+
+
+//        view.addSubview(activityIndicator)
+//        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+    }
+
     private func addSearchController() {
         navigationItem.searchController = searchResultController
         definesPresentationContext = true
     }
+
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,16 +49,15 @@ class SearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
-       
         cell.textLabel?.text = viewModel.dataResult(at: indexPath).title
-        
         return cell
     }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchData = viewModel.dataResult(at: indexPath)
         performSegue(withIdentifier: "moreInfo", sender: nil)
-        
     }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "moreInfo" else { return }
@@ -63,17 +68,21 @@ class SearchTableViewController: UITableViewController {
             print(searchData)
         }
     }
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
             viewModel.getData(searchResultController.searchBar.text){
-            tableView.reloadData()
+                tableView.reloadData()
             }
         }
     }
 }
+
 extension SearchTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        viewModel.launchSearch(text: searchResultController.searchBar.text, searchController: searchResultController, tableView: tableView)
+        viewModel.launchSearch(text: searchResultController.searchBar.text,
+                               searchController: searchResultController,
+                               tableView: tableView)
         
     }
 }

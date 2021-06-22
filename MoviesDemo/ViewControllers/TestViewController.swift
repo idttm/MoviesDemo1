@@ -11,7 +11,6 @@ import Kingfisher
 
 class TestViewController: UITableViewController {
 
-    
     @IBOutlet weak var imageView: UIImageView!
     private var resultData = [DataResult]()
     var headerView: UIView!

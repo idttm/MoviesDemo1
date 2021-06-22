@@ -17,7 +17,6 @@ class SimalarMoviewTableViewController: UITableViewController {
         viewModel.getDataSimilar { [weak self] in
             self?.tableView.reloadData()
         }
-
     }
 
     // MARK: - Table view data source
@@ -28,7 +27,6 @@ class SimalarMoviewTableViewController: UITableViewController {
         return viewModel.numberOfRowsSimilar
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 

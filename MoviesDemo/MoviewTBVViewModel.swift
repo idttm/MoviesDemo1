@@ -14,50 +14,56 @@ class MoviewTBVViewModel {
     private var dataSimilar: [ResultSimilar] = []
     private var filterArraySearch = [DataResult]()
     var numberOfRows: Int { data.count }
-    var numberOfRowsSimilar: Int {dataSimilar.count}
+    var numberOfRowsSimilar: Int { dataSimilar.count }
     var numberOfRowsSearch: Int { filterArraySearch.count }
-//    var pageWeak = 1
-    var pageDay = 1
-    var pageWeak = 1
-    func getData(week: Bool, completio: @escaping() -> Void) {
-        
-        switch week {
-        
-        case true:
-            
-            if pageWeak == 1 {
-                data.removeAll()
-            }
-            self.networkManager.gettingDataFromJSON(page: pageWeak, week: week) { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        self?.data.append(contentsOf: data)
-                    case .failure(let error):
-                        break
-                    }
-                    completio()
-                }
-            pagePlus()
-        case false:
-            if pageDay == 1 {
-                data.removeAll()
-            }
-            self.networkManager.gettingDataFromJSON(page: pageDay, week: week) { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        self?.data.append(contentsOf: data)
-                    case .failure(let error):
-                        break
-                    }
-                    completio()
-                }
-            
-            pagePlus1()
-        }
-        
+    private var page = 1
+    private var week: Bool = true
+
+    var onDataUpdated: () -> Void = {}
+
+    var title: String {
+        week ? "Day tranding" : "Week tranding"
     }
+
+    var buttonTitle: String {
+        week ? "Week tranding" : "Day tranding"
+    }
+
+    func toggleTrandingMode() {
+        week.toggle()
+        refresh()
+    }
+
+    func refresh() {
+        page = 1
+        getNextPage()
+    }
+
+    func getNextPage() {
+        getData(week: week) { [weak self] in
+            self?.onDataUpdated()
+        }
+    }
+
+    private func getData(week: Bool, completio: @escaping() -> Void) {
+        if page == 1 {
+            data.removeAll()
+        }
+        self.networkManager.getDataTrending(page: page, week: week) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.data.append(contentsOf: data)
+                self?.onDataUpdated()
+            case .failure(let error):
+                break
+            }
+            self?.pagePlus()
+            completio()
+        }
+    }
+
     func getDataSimilar(completion: @escaping() -> Void ) {
-        self.networkManager.gettingDataSimilarFromJSON(page: pageWeak, query: "1726") { [weak self] result in
+        self.networkManager.getDataSimilar(page: page, query: "1726") { [weak self] result in
             switch result {
             case .success(let data):
                 self?.dataSimilar.append(contentsOf: data)
@@ -70,25 +76,25 @@ class MoviewTBVViewModel {
     }
     
     func pagePlus() {
-        pageWeak += 1
-    }
-    func pagePlus1() {
-        pageDay += 1
+        page += 1
     }
 
-    
     func titleForRow(at indexPath: IndexPath) -> String {
         data[indexPath.row].title
     }
+
     func titleForRowSimilar(at indexPath: IndexPath) -> String {
         dataSimilar[indexPath.row].title
     }
+
     func dataResult(at indexPath: IndexPath) -> DataResult {
         data[indexPath.row]
     }
+
     func titleForRowSearch(at indexPath: IndexPath) -> String {
         filterArraySearch[indexPath.row].title
     }
+
     func dataResultSearch(at indexPath: IndexPath) -> DataResult {
         filterArraySearch[indexPath.row]
     }
@@ -99,6 +105,7 @@ class MoviewTBVViewModel {
             return titleSearch.title.lowercased().contains(searchText.lowercased())
         })
     }
+
     func partTwoImageUrl(at indexPath: IndexPath) -> String {
         data[indexPath.row].posterPath
     }
@@ -107,6 +114,7 @@ class MoviewTBVViewModel {
         guard let text = seachController.searchBar.text else {return false }
         return text.isEmpty
     }
+
     func isFiltering (at seachController: UISearchController) -> Bool {
         return seachController.isActive && !searchBarIsEmpty(at: seachController)
     }
