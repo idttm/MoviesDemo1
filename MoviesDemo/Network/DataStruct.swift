@@ -19,7 +19,7 @@ struct Test: Codable {
 }
 
 // MARK: - Result
-struct DataResult: Codable {
+struct DataResult: Codable, Hashable {
     let adult: Bool
     let backdropPath: String?
     let genreIDS: [Int]

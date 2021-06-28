@@ -10,7 +10,7 @@ import UIKit
 class MoviewTBVViewModel {
     
     private let networkManager = NetworkMoviesManager()
-    private var data: [DataResult] = []
+    var data: [DataResult] = []
     private var dataSimilar: [ResultSimilar] = []
     private var filterArraySearch = [DataResult]()
     var numberOfRows: Int { data.count }
@@ -20,6 +20,40 @@ class MoviewTBVViewModel {
     private var week: Bool = true
 
     var onDataUpdated: () -> Void = {}
+    
+    
+    var similarMovies: [ResultSimilar] = []
+   
+
+    func getDataLayout(movieId: Int, completion: @escaping() -> Void) {
+        let dg = DispatchGroup()
+//        networkManager.getDataTrending(page: 1, week: false) { [weak self] result in
+//            switch result {
+//            case .success(let data):
+//                self?.posterURLString = data.first?.posterPath  ?? ""
+//                self?.sectionDataForMoreInfo = MoreTextInfo(currentMoview: data)
+//            case .failure(let error):
+//                break
+//            }
+//            dg.leave()
+//        }
+
+        dg.enter()
+        networkManager.getDataSimilar(page: 1, query: "\(movieId)") { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.similarMovies = data
+            case .failure(let error):
+                print("ERROR \(error.localizedDescription)")
+                break
+            }
+            dg.leave()
+        }
+
+        dg.notify(queue: DispatchQueue.main) {
+            completion()
+        }
+    }
 
     var title: String {
         week ? "Day tranding" : "Week tranding"
@@ -45,7 +79,7 @@ class MoviewTBVViewModel {
         }
     }
 
-    private func getData(week: Bool, completio: @escaping() -> Void) {
+    func getData(week: Bool, completio: @escaping() -> Void) {
         if page == 1 {
             data.removeAll()
         }

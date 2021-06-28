@@ -15,12 +15,12 @@ struct DataSimilar: Codable {
 }
 
 // MARK: - Result
-struct ResultSimilar: Codable {
+struct ResultSimilar: Codable, Hashable {
     let adult: Bool
     let backdropPath: String
     let genreIDS: [Int]
     let id: Int
-    let originalLanguage: OriginalLanguage
+    let originalLanguage: String
     let originalTitle, overview, posterPath, releaseDate: String
     let title: String
     let video: Bool
@@ -45,7 +45,5 @@ struct ResultSimilar: Codable {
     }
 }
 
-enum OriginalLanguage: String, Codable {
-    case en = "en"
-}
+
 
