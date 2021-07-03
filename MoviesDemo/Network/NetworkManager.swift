@@ -13,52 +13,147 @@ enum NetworkError: Error {
     case parsingFailed
 }
 
-enum responseTrandingMovies: String {
-    case trendingWeek = "trending/movie/week"
-    case trendingDay = "trending/movie/day"
-    case search = "search/movie"
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
 }
 
-class NetworkMoviesManager {
+protocol EndPointType {
+    var baseURL: URL { get }
+    var path: String { get }
+    var httpMethod: HTTPMethod { get }
+    var task: HTTPTask { get }
+}
+
+typealias Parameters = [String: Any]
+
+enum HTTPTask {
+    case request
+    case requestParameters(urlParametrs: Parameters?)
+}
+
+enum ConfigurationURL: EndPointType {
+    case configurationWeek(apiKey: String, page: Int)
+    case configurationDay(apiKey: String, page: Int)
+    case similarMovies(apyKey: String, page: Int, movieId: Int)
+    case searchMovies(apyKey: String, page: Int, query: String)
+}
+
+extension ConfigurationURL {
     
-    func makeURL(page: String,
-                 apiKey: String,
-                 requestOption: responseTrandingMovies,
-                 query: String? = nil) -> String? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.themoviedb.org"
-        components.path = "/3/\(requestOption.rawValue)"
-        if query != nil {
-            components.queryItems = [
-                URLQueryItem(name: "query", value: query),
-                URLQueryItem(name: "api_key", value: apiKey),
-                URLQueryItem(name: "page", value: page)
-            ]
-            let url = components.url?.absoluteString
-            
-            return url
+    var environmentBaseURL: String { "https://api.themoviedb.org/3/" }
+    
+    var baseURL: URL {
+        guard let url = URL(string: environmentBaseURL) else {
+            fatalError("failed to configure base URL")
         }
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: apiKey),
-            URLQueryItem(name: "page", value: page)
-        ]
-        let url = components.url?.absoluteString
         return url
-        
     }
-
-
-
-    func getDataTrending(page: Int, week: Bool = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
-        var url: String
-        
-        if week == true {
-            url = self.makeURL(page: String(page), apiKey: apiKey, requestOption: .trendingWeek)!
-        } else {
-            url = self.makeURL(page: String(page), apiKey: apiKey, requestOption: .trendingDay)!
+    
+    var path: String {
+        switch self {
+        case .configurationWeek(_, _):
+            return "trending/movie/week"
+        case .configurationDay(_, _):
+            return "treding/movie/day"
+        case .searchMovies(_, _, _):
+            return "search/company"
+        case .similarMovies(_, _, let movieId):
+            return "movie/\(movieId)/similar"
         }
-        self.fetchData(model: Test.self, urlString: url) { [weak self] result in
+    }
+    
+    var httpMethod: HTTPMethod {
+        return .get
+    }
+    
+    var task: HTTPTask {
+        switch self {
+        case .configurationWeek(apiKey: let apiKey, page: let page):
+            return .requestParameters(urlParametrs: ["api_key": apiKey,
+                                                     "page": page])
+        case .configurationDay(apiKey: let apiKey, page: let page):
+            return .requestParameters(urlParametrs: ["api_key": apiKey,
+                                                     "page": page])
+        case .similarMovies(apyKey: let apyKey, page: let page, _):
+            return .requestParameters(urlParametrs: [ "api_key": apyKey,
+                                                      "page": page,])
+        case .searchMovies(apyKey: let apyKey, page: let page, query: let query):
+            return .requestParameters(urlParametrs: ["api_key": apyKey,
+                                                     "page": page,
+                                                     "query": query])
+        }
+    }
+}
+
+class NetworkingManager {
+    
+    private let session: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForResource = 30
+        config.timeoutIntervalForRequest = 30
+        let session = URLSession(configuration: config)
+        return session
+    }()
+    
+    func makeRequest(from route: EndPointType) -> URLRequest {
+        var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path), cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30.0)
+        request.httpMethod = route.httpMethod.rawValue
+        
+        do {
+            switch route.task {
+            case .request:
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            case .requestParameters(urlParametrs: let urlParametrs):
+                guard let url = request.url else { fatalError("NO URL") }
+                if var urlComponts = URLComponents(url: url, resolvingAgainstBaseURL: false), let params = urlParametrs, !params.isEmpty {
+                    urlComponts.queryItems = [URLQueryItem]()
+                    for (key, value) in params {
+                        let queryItem = URLQueryItem(name: key, value: "\(value)")
+                        urlComponts.queryItems?.append(queryItem)
+                    }
+                    request.url = urlComponts.url
+                }
+                if request.value(forHTTPHeaderField: "Content-Type") == nil {
+                    
+                    request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+                }
+            }
+        }
+        return request
+    }
+    
+    @discardableResult
+    func fetchData<T: Decodable>(_ route: EndPointType, model: T.Type, completion: @escaping (Result<T, Error>)  -> Void) -> URLSessionTask? {
+        let request = makeRequest(from: route)
+        let task = session.dataTask(with: request) { [unowned self] data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(NetworkError.noData))
+                    return
+                }
+                do {
+                    let test = try self.parseJSON(type: model.self, data: data)
+                    completion(.success(test))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            }
+        }
+        task.resume()
+        return task
+    }
+    
+    func getDataTrending(page: Int, week: Bool = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+        if week == true {
+        self.fetchData(ConfigurationURL.configurationWeek(apiKey: apiKey, page: page), model: Test.self) { [weak self] result in
             switch result {
             case .success(let model):
                 if model.page <= model.totalPages {
@@ -69,13 +164,29 @@ class NetworkMoviesManager {
                 completion(.failure(error))
                 return
             }
+            
         }
+        } else {
+            self.fetchData(ConfigurationURL.configurationDay(apiKey: apiKey, page: page), model: Test.self) { [weak self] result in
+                switch result {
+                case .success(let model):
+                    if model.page <= model.totalPages {
+                        completion(.success(model.results))
+                        print(model.totalPages)
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                    return
+                }
+                
+            }
+        }
+        
     }
     
+
     func getDataSearch(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
-        let urlString =  self.makeURL(page: String(page), apiKey: apiKey, requestOption: .search, query: query)
-        print(urlString)
-        self.fetchData(model: SearchData.self, urlString: urlString!) { [weak self] result in
+        self.fetchData(ConfigurationURL.searchMovies(apyKey: apiKey, page: page, query: query), model: SearchData.self) { [weak self] result in
             switch result {
             case .success(let model):
                 completion(.success(model.results))
@@ -85,10 +196,10 @@ class NetworkMoviesManager {
             }
         }
     }
-
-    func getDataSimilar(page: Int, query: String, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
-        let urlString = "https://api.themoviedb.org/3/movie/\(query)/similar?api_key=357c897a0e2f1679cd227af63c654745&language=en-US&page=\(page)"
-        self.fetchData(model: DataSimilar.self, urlString: urlString) { [weak self] result in
+    
+    func getDataSimilar(page: Int, movieId: Int, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
+        
+        self.fetchData(ConfigurationURL.similarMovies(apyKey: apiKey, page: page, movieId: movieId), model: DataSimilar.self) { [weak self] result in
             switch result {
             case .success(let model):
                 completion(.success(model.results))
@@ -128,4 +239,5 @@ class NetworkMoviesManager {
         let decoder = JSONDecoder()
         return try decoder.decode(type, from: data)
     }
+    
 }

@@ -14,6 +14,7 @@ enum SectionMovies: Int {
 class MoviesCompositionLayout: UIViewController {
     
     var viewModel = MoviewTBVViewModel()
+    private var selectedData: DataResult?
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource<SectionMovies, AnyHashable>! = nil
     
@@ -25,12 +26,10 @@ class MoviesCompositionLayout: UIViewController {
             self.reloadData()
         }
         viewModel.refresh()
+        
     }
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.getNextPage()
-        }
-    }
+    
+    
     func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -38,9 +37,11 @@ class MoviesCompositionLayout: UIViewController {
         view.addSubview(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(CompositionalLayoutMovieCell.self, forCellWithReuseIdentifier: CompositionalLayoutMovieCell.reusedId)
+        collectionView.delegate = self
         setupDataSourse()
         reloadData()
     }
+    
     private func createLayout() -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout { [unowned self] (sectionIndex, layoutEnvirnment) -> NSCollectionLayoutSection? in
@@ -50,6 +51,7 @@ class MoviesCompositionLayout: UIViewController {
                 return self.moviesSection()
             }
         }
+        
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 10
         layout.configuration = config
@@ -59,6 +61,7 @@ class MoviesCompositionLayout: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<SectionMovies, AnyHashable>(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard self != nil else { return nil }
             let section = SectionMovies(rawValue: indexPath.section)!
+            
             switch section {
             case .movie:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CompositionalLayoutMovieCell.reusedId, for: indexPath) as! CompositionalLayoutMovieCell
@@ -90,5 +93,26 @@ class MoviesCompositionLayout: UIViewController {
         
         return section
     }
-
+    
+}
+extension MoviesCompositionLayout: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if  indexPath.row == viewModel.numberOfRows - 1 {
+            viewModel.getNextPage()
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedData = viewModel.dataResult(at: indexPath)
+        performSegue(withIdentifier: "showMovie2", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard segue.identifier == "showMovie2" else { return }
+        guard let moreVC = segue.destination as? MoreInfoCompositionLayout else {return}
+        moreVC.sectionDataForMoreInfo = MoreTextInfo(currentMoview: selectedData!)
+        moreVC.posterPhoto = PosterPhotoData(currentMoview: selectedData!)
+        moreVC.movieId = selectedData!.id
+    }
 }

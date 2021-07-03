@@ -9,7 +9,7 @@ import UIKit
 
 class ModelSearch {
     
-    private let networkManager = NetworkMoviesManager()
+    private let networkManager = NetworkingManager()
     private var data: [DataSearch] = []
     var numberOfRows: Int { data.count }
     var page = 1 

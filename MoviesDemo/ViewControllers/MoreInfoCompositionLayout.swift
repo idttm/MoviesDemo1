@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Section: Int {
+enum Section: Int, CaseIterable {
     case posterPhoto
     case title
     case overview
@@ -23,6 +23,9 @@ class MoreInfoCompositionLayout: UIViewController {
     var movieId: Int?
     var posterPhoto: PosterPhotoData?
     var sectionDataForMoreInfo: MoreTextInfo?
+    var selectedData: ResultSimilar?
+    static let sectionHeaderElementKind = "section-header-element-kind"
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +33,7 @@ class MoreInfoCompositionLayout: UIViewController {
         viewModel.getDataLayout(movieId: movieId!) { [weak self] in
                 self?.reloadData()
         }
-        print(sectionDataForMoreInfo?.overview)
+        print(movieId)
     }
 
     func setupCollectionView() {
@@ -42,8 +45,13 @@ class MoreInfoCompositionLayout: UIViewController {
         collectionView.register(PosterPhoto.self, forCellWithReuseIdentifier: PosterPhoto.reusedId)
         collectionView.register(MoreInfoMovie.self, forCellWithReuseIdentifier: MoreInfoMovie.reusedId)
         collectionView.register(Similar.self, forCellWithReuseIdentifier: Similar.reusedId)
+        collectionView.register(
+          HeaderView.self,
+          forSupplementaryViewOfKind: MoreInfoCompositionLayout.sectionHeaderElementKind,
+          withReuseIdentifier: HeaderView.reuseIdentifier)
+        collectionView.delegate = self
         setupDataSourse()
-        reloadData()
+        
     }
 
     private func createLayout() -> UICollectionViewLayout {
@@ -60,9 +68,6 @@ class MoreInfoCompositionLayout: UIViewController {
             }
         }
         
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 10
-        layout.configuration = config
         return layout
     }
     
@@ -95,9 +100,29 @@ class MoreInfoCompositionLayout: UIViewController {
                 return cell
             }
         })
+        
+        dataSource.supplementaryViewProvider = { (
+          collectionView: UICollectionView,
+          kind: String,
+          indexPath: IndexPath) -> UICollectionReusableView? in
+
+          guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: HeaderView.reuseIdentifier,
+            for: indexPath) as? HeaderView else { fatalError("Cannot create header view") }
+
+            supplementaryView.label.text = String(Section.allCases[indexPath.section].rawValue)
+          return supplementaryView
+        }
+
+        let snapshot = reloadData()
+        dataSource.apply(snapshot, animatingDifferences: false)
+        
+
     }
     
-    func reloadData() {
+    
+    func reloadData() -> NSDiffableDataSourceSnapshot<Section, AnyHashable> {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>()
         snapshot.appendSections([.posterPhoto, .title, .rating, .overview, .similarsMovies])
         snapshot.appendItems([posterPhoto?.posterPath], toSection: .posterPhoto)
@@ -105,7 +130,9 @@ class MoreInfoCompositionLayout: UIViewController {
         snapshot.appendItems([sectionDataForMoreInfo?.rating], toSection: .rating)
         snapshot.appendItems([sectionDataForMoreInfo?.overview], toSection: .overview)
         snapshot.appendItems(viewModel.similarMovies, toSection: .similarsMovies)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        
+        return snapshot
+        
     }
     
     private func posterSection() -> NSCollectionLayoutSection {
@@ -146,12 +173,39 @@ class MoreInfoCompositionLayout: UIViewController {
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.4),
             heightDimension: .fractionalWidth(0.6))
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .estimated(44))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+          layoutSize: headerSize,
+          elementKind: "Section" , alignment: .top)
+
        
+    
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [sectionHeader]
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        
         return section
         
     }
+}
+extension MoreInfoCompositionLayout: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedData = viewModel.similarMovies[indexPath.row]
+        performSegue(withIdentifier: "detailInfoSimilar", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard segue.identifier == "detailInfoSimilar" else { return }
+        guard let moreVC = segue.destination as? DetailInfoSimalrMovi else {return}
+        moreVC.data = selectedData
+    }
+    
+   
+    
 }

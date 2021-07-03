@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let fetchCurrent = NetworkMoviesManager()
+    let fetchCurrent = NetworkingManager()
    
     @IBOutlet weak var searchTF: UITextField!
 
