@@ -33,7 +33,6 @@ class MoreInfoCompositionLayout: UIViewController {
         viewModel.getDataLayout(movieId: movieId!) { [weak self] in
                 self?.reloadData()
         }
-        print(movieId)
     }
 
     func setupCollectionView() {
@@ -180,8 +179,6 @@ class MoreInfoCompositionLayout: UIViewController {
           layoutSize: headerSize,
           elementKind: "Section" , alignment: .top)
 
-       
-    
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [sectionHeader]
@@ -192,6 +189,7 @@ class MoreInfoCompositionLayout: UIViewController {
         
     }
 }
+
 extension MoreInfoCompositionLayout: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -205,7 +203,4 @@ extension MoreInfoCompositionLayout: UICollectionViewDelegate {
         guard let moreVC = segue.destination as? DetailInfoSimalrMovi else {return}
         moreVC.data = selectedData
     }
-    
-   
-    
 }

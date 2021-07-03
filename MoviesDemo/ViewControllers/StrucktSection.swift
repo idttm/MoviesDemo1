@@ -8,6 +8,7 @@
 import Foundation
 
 struct PosterPhotoData: Hashable {
+    
     static func == (lhs: PosterPhotoData, rhs: PosterPhotoData) -> Bool {
         lhs.id == rhs.id
     }

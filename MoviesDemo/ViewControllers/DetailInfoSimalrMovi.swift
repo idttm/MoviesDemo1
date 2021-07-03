@@ -9,7 +9,6 @@ import UIKit
 
 class DetailInfoSimalrMovi: UIViewController {
     
-    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var overview: UILabel!
     @IBOutlet weak var label: UILabel!
