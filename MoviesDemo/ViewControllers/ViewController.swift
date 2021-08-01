@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
+    
     @IBAction func searchAction(_ sender: UIButton) {
             }
     @IBAction func tapButton(_ sender: UIButton) {

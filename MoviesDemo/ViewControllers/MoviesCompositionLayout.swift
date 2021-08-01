@@ -26,9 +26,7 @@ class MoviesCompositionLayout: UIViewController {
             self.reloadData()
         }
         viewModel.refresh()
-        
     }
-    
     
     func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -51,12 +49,12 @@ class MoviesCompositionLayout: UIViewController {
                 return self.moviesSection()
             }
         }
-        
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 10
         layout.configuration = config
         return layout
     }
+    
     private func setupDataSourse() {
         dataSource = UICollectionViewDiffableDataSource<SectionMovies, AnyHashable>(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard self != nil else { return nil }

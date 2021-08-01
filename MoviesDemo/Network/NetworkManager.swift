@@ -35,14 +35,14 @@ enum HTTPTask {
     case requestParameters(urlParametrs: Parameters?)
 }
 
-enum ConfigurationURL: EndPointType {
+enum MoviesEndPoint: EndPointType {
     case configurationWeek(apiKey: String, page: Int)
     case configurationDay(apiKey: String, page: Int)
     case similarMovies(apyKey: String, page: Int, movieId: Int)
     case searchMovies(apyKey: String, page: Int, query: String)
 }
 
-extension ConfigurationURL {
+extension MoviesEndPoint {
     
     var environmentBaseURL: String { "https://api.themoviedb.org/3/" }
     
@@ -58,9 +58,9 @@ extension ConfigurationURL {
         case .configurationWeek(_, _):
             return "trending/movie/week"
         case .configurationDay(_, _):
-            return "treding/movie/day"
+            return "trending/movie/day"
         case .searchMovies(_, _, _):
-            return "search/company"
+            return "search/movie"
         case .similarMovies(_, _, let movieId):
             return "movie/\(movieId)/similar"
         }
@@ -151,9 +151,9 @@ class NetworkingManager {
         return task
     }
     
-    func getDataTrending(page: Int, week: Bool = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
-        if week == true {
-        self.fetchData(ConfigurationURL.configurationWeek(apiKey: apiKey, page: page), model: Test.self) { [weak self] result in
+    func getTrandinMovies(page: Int, week: Bool = true, completion: @escaping (Result<[DataResult],Error>) -> Void) {
+        let route = week ? MoviesEndPoint.configurationWeek(apiKey: apiKey, page: page) : MoviesEndPoint.configurationDay(apiKey: apiKey, page: page)
+        self.fetchData(route, model: Test.self) { [weak self] result in
             switch result {
             case .success(let model):
                 if model.page <= model.totalPages {
@@ -164,29 +164,11 @@ class NetworkingManager {
                 completion(.failure(error))
                 return
             }
-            
         }
-        } else {
-            self.fetchData(ConfigurationURL.configurationDay(apiKey: apiKey, page: page), model: Test.self) { [weak self] result in
-                switch result {
-                case .success(let model):
-                    if model.page <= model.totalPages {
-                        completion(.success(model.results))
-                        print(model.totalPages)
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-                    return
-                }
-                
-            }
-        }
-        
     }
     
-
-    func getDataSearch(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
-        self.fetchData(ConfigurationURL.searchMovies(apyKey: apiKey, page: page, query: query), model: SearchData.self) { [weak self] result in
+    func getSearchMovies(page: Int, query: String, completion: @escaping (Result<[DataSearch],Error>) -> Void) {
+        self.fetchData(MoviesEndPoint.searchMovies(apyKey: apiKey, page: page, query: query), model: SearchData.self) { [weak self] result in
             switch result {
             case .success(let model):
                 completion(.success(model.results))
@@ -197,9 +179,9 @@ class NetworkingManager {
         }
     }
     
-    func getDataSimilar(page: Int, movieId: Int, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
+    func getSimilarMovies(page: Int, movieId: Int, completion: @escaping (Result<[ResultSimilar],Error>) -> Void) {
         
-        self.fetchData(ConfigurationURL.similarMovies(apyKey: apiKey, page: page, movieId: movieId), model: DataSimilar.self) { [weak self] result in
+        self.fetchData(MoviesEndPoint.similarMovies(apyKey: apiKey, page: page, movieId: movieId), model: DataSimilar.self) { [weak self] result in
             switch result {
             case .success(let model):
                 completion(.success(model.results))
@@ -208,31 +190,6 @@ class NetworkingManager {
                 return
             }
         }
-    }
-    
-    func fetchData<T:Decodable>(model: T.Type, urlString: String, completion: @escaping (Result<T, Error>)  -> Void) {
-        guard let url = URL(string: urlString) else {return}
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else {return}
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                guard let data = data else {
-                    completion(.failure(NetworkError.noData))
-                    return
-                }
-                do {
-                    let test = try self.parseJSON(type: model.self, data: data)
-                    completion(.success(test))
-                } catch let error {
-                    completion(.failure(error))
-                }
-            }
-        }
-        task.resume()
     }
     
     func parseJSON<T:Decodable>(type: T.Type, data: Data) throws -> T {

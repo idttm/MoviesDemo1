@@ -10,23 +10,27 @@ import UIKit
 class ModelSearch {
     
     private let networkManager = NetworkingManager()
-    private var data: [DataSearch] = []
+    var data: [DataSearch] = []
     var numberOfRows: Int { data.count }
     var page = 1 
     var onLoadingStateChanged: (Bool) -> Void = { _ in }
 
-    func getData(_ textSearch: String?, completion: @escaping() -> Void) {
+    func getData(pagination: Bool = false, _ textSearch: String?, completion: @escaping() -> Void) {
         guard let textSearch = textSearch else {return}
-        networkManager.getDataSearch(page: page, query: textSearch, completion: { [weak self] result in
+        if pagination == true {
+            pagePlus()
+        }
+        networkManager.getSearchMovies(page: page, query: textSearch, completion: { [weak self] result in
             switch result {
             case .success(let data):
                     self?.data.append(contentsOf: data)
+               
             case .failure(let error):
                 break
             }
             completion()
         })
-        pagePlus()
+        
     }
 
     func pagePlus() {
@@ -62,22 +66,16 @@ class ModelSearch {
     func isFiltering (at seachController: UISearchController) -> Bool {
         return seachController.isActive && !searchBarIsEmpty(at: seachController)
     }
-
+    
     func launchSearch(text: String?, searchController: UISearchController, tableView: UITableView) {
         removerData()
-        guard let newSearchText = text?.replacingOccurrences(of: " ", with: "%20") else {return}
-        if isFiltering(at: searchController) && antiSpam(text: newSearchText) {
-
-            print(newSearchText)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        page = 1
+        if isFiltering(at: searchController) && antiSpam(text: text!) {
             self.onLoadingStateChanged(true)
-                self.getData(newSearchText) { [weak self] in
+                self.getData(text) { [weak self] in
                     self?.onLoadingStateChanged(false)
                     tableView.reloadData()
                 }
-//            }
-            
         }
     }
-    
 }

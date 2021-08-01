@@ -10,6 +10,7 @@ import UIKit
 class SearchTableViewController: UITableViewController {
     
     let viewModel = ModelSearch()
+    let activityIndicator = UIActivityIndicatorView()
     private var searchData: DataSearch?
     private var filterArraySearch = [DataSearch]()
 
@@ -27,12 +28,13 @@ class SearchTableViewController: UITableViewController {
         addSearchController()
 
         viewModel.onLoadingStateChanged = { [weak self] isLoading in
-            print(isLoading ? "Loading....." : "Finished")
+//            isLoading ? print(String(viewModel.numberOfRows[0])) : print("false")
+            print(isLoading ? "loading" : "\(self?.viewModel.page)")
 
         }
-
-
-//        view.addSubview(activityIndicator)
+       
+        
+        view.addSubview(activityIndicator)
 //        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
     }
 
@@ -71,7 +73,7 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if  indexPath.row == viewModel.numberOfRows - 1 {
-            viewModel.getData(searchResultController.searchBar.text){
+            viewModel.getData(pagination: true, searchResultController.searchBar.text){
                 tableView.reloadData()
             }
         }

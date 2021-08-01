@@ -25,16 +25,17 @@ class MoreInfoCompositionLayout: UIViewController {
     var sectionDataForMoreInfo: MoreTextInfo?
     var selectedData: ResultSimilar?
     static let sectionHeaderElementKind = "section-header-element-kind"
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         viewModel.getDataLayout(movieId: movieId!) { [weak self] in
-                self?.reloadData()
+            self?.reloadData()
         }
+        reloadData()
     }
-
+    
     func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -45,16 +46,16 @@ class MoreInfoCompositionLayout: UIViewController {
         collectionView.register(MoreInfoMovie.self, forCellWithReuseIdentifier: MoreInfoMovie.reusedId)
         collectionView.register(Similar.self, forCellWithReuseIdentifier: Similar.reusedId)
         collectionView.register(
-          HeaderView.self,
-          forSupplementaryViewOfKind: MoreInfoCompositionLayout.sectionHeaderElementKind,
-          withReuseIdentifier: HeaderView.reuseIdentifier)
+            HeaderView.self,
+            forSupplementaryViewOfKind: MoreInfoCompositionLayout.sectionHeaderElementKind,
+            withReuseIdentifier: HeaderView.reuseIdentifier)
         collectionView.delegate = self
         setupDataSourse()
         
     }
-
+    
     private func createLayout() -> UICollectionViewLayout {
-
+        
         let layout = UICollectionViewCompositionalLayout { [unowned self] (sectionIndex, layoutEnvirnment) -> NSCollectionLayoutSection? in
             let section = Section(rawValue: sectionIndex)!
             switch section {
@@ -77,7 +78,11 @@ class MoreInfoCompositionLayout: UIViewController {
             switch section {
             case .posterPhoto:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath) as! PosterPhoto
+                NSLayoutConstraint.activate([
+                    cell.posterPhoto.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
+                ])
                 cell.posterPhoto.setImage(secondPartURL: self.posterPhoto!.posterPath)
+                
                 return cell
             case .title:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoreInfoMovie.reusedId, for: indexPath) as! MoreInfoMovie
@@ -85,7 +90,7 @@ class MoreInfoCompositionLayout: UIViewController {
                 return cell
             case .overview:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoreInfoMovie.reusedId, for: indexPath) as! MoreInfoMovie
-                cell.label.text = "OverView \n\(self.sectionDataForMoreInfo?.overview)"
+                cell.label.text = "OverView \n\(self.sectionDataForMoreInfo!.overview)"
                 return cell
             case .rating:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoreInfoMovie.reusedId, for: indexPath) as! MoreInfoMovie
@@ -101,27 +106,25 @@ class MoreInfoCompositionLayout: UIViewController {
         })
         
         dataSource.supplementaryViewProvider = { (
-          collectionView: UICollectionView,
-          kind: String,
-          indexPath: IndexPath) -> UICollectionReusableView? in
-
-          guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: HeaderView.reuseIdentifier,
-            for: indexPath) as? HeaderView else { fatalError("Cannot create header view") }
-
-            supplementaryView.label.text = String(Section.allCases[indexPath.section].rawValue)
-          return supplementaryView
+            collectionView: UICollectionView,
+            kind: String,
+            indexPath: IndexPath) -> UICollectionReusableView? in
+            
+            guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: HeaderView.reuseIdentifier,
+                    for: indexPath) as? HeaderView else { fatalError("Cannot create header view") }
+            supplementaryView.label.font = UIFont(name: "Helvetica", size: 30)
+            supplementaryView.label.textAlignment = .left
+            supplementaryView.label.text = "Similar Movies"
+            return supplementaryView
         }
-
-        let snapshot = reloadData()
-        dataSource.apply(snapshot, animatingDifferences: false)
         
-
+        reloadData()
     }
     
     
-    func reloadData() -> NSDiffableDataSourceSnapshot<Section, AnyHashable> {
+    func reloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>()
         snapshot.appendSections([.posterPhoto, .title, .rating, .overview, .similarsMovies])
         snapshot.appendItems([posterPhoto?.posterPath], toSection: .posterPhoto)
@@ -129,8 +132,7 @@ class MoreInfoCompositionLayout: UIViewController {
         snapshot.appendItems([sectionDataForMoreInfo?.rating], toSection: .rating)
         snapshot.appendItems([sectionDataForMoreInfo?.overview], toSection: .overview)
         snapshot.appendItems(viewModel.similarMovies, toSection: .similarsMovies)
-        
-        return snapshot
+        dataSource.apply(snapshot, animatingDifferences: false)
         
     }
     
@@ -176,9 +178,10 @@ class MoreInfoCompositionLayout: UIViewController {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .estimated(44))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-          layoutSize: headerSize,
-          elementKind: "Section" , alignment: .top)
-
+            layoutSize: headerSize,
+            elementKind: Self.sectionHeaderElementKind,
+            alignment: .top)
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.boundarySupplementaryItems = [sectionHeader]
@@ -188,13 +191,15 @@ class MoreInfoCompositionLayout: UIViewController {
         return section
         
     }
-}
+  }
 
 extension MoreInfoCompositionLayout: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedData = viewModel.similarMovies[indexPath.row]
-        performSegue(withIdentifier: "detailInfoSimilar", sender: nil)
+        if indexPath.section == 4 {
+            selectedData = viewModel.similarMovies[indexPath.row]
+            performSegue(withIdentifier: "detailInfoSimilar", sender: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -204,3 +209,4 @@ extension MoreInfoCompositionLayout: UICollectionViewDelegate {
         moreVC.data = selectedData
     }
 }
+

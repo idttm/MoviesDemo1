@@ -14,6 +14,7 @@ extension UIImageView {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500" + secondPartURL) else { return }
         kf.setImage(with: url)
         
+        
     }
 }
 extension UIColor {

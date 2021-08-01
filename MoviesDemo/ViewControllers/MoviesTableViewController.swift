@@ -73,21 +73,6 @@ class MoviesTableViewController: UITableViewController {
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if viewModel.isFiltering(at: searchController) {
-//            selectedData = viewModel.dataResultSearch(at: indexPath)
-//        } else {
-//            selectedData = viewModel.dataResult(at: indexPath)
-//        }
-//        performSegue(withIdentifier: "showMovie", sender: nil)
-//    }
-//
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        guard segue.identifier == "showMovie" else { return }
-//        guard let moreVC = segue.destination as? MoreInfoTableViewController else {return}
-//        moreVC.currentDataForMoreInfo = selectedData
-//    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if viewModel.isFiltering(at: searchController) {
             selectedData = viewModel.dataResultSearch(at: indexPath)
@@ -104,9 +89,6 @@ class MoviesTableViewController: UITableViewController {
         moreVC.sectionDataForMoreInfo = MoreTextInfo(currentMoview: selectedData!)
         moreVC.posterPhoto = PosterPhotoData(currentMoview: selectedData!)
         moreVC.movieId = selectedData!.id
-//        viewModel.getDataLayout(movieId: selectedData!.id, completion: { [weak self] in
-//                                    print("good job")})
-        
     }
 }
 

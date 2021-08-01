@@ -9,6 +9,7 @@ import UIKit
 
 class DetailInfoSimalrMovi: UIViewController {
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var overview: UILabel!
     @IBOutlet weak var label: UILabel!
@@ -16,6 +17,7 @@ class DetailInfoSimalrMovi: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.contentInset.top = 20
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill

@@ -26,7 +26,7 @@ class MoviewTBVViewModel {
         if page == 1 {
             data.removeAll()
         }
-        self.newNetworkManager.getDataTrending(page: page, week: week) {
+        self.newNetworkManager.getTrandinMovies(page: page, week: week) {
             [weak self] result in
             switch result {
             case .success(let data):
@@ -54,7 +54,7 @@ class MoviewTBVViewModel {
         //        }
         
         dg.enter()
-        networkManager.getDataSimilar(page: 1, movieId: movieId) { [weak self] result  in
+        networkManager.getSimilarMovies(page: 1, movieId: movieId) { [weak self] result  in
             switch result {
             case .success(let data):
                 self?.similarMovies = data
@@ -89,6 +89,7 @@ class MoviewTBVViewModel {
     }
     
     func getNextPage() {
+        print(self.page)
         getData(week: week) { [weak self] in
             self?.onDataUpdated()
         }
