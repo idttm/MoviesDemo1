@@ -25,6 +25,7 @@ class MoreInfoCompositionLayout: UIViewController {
     var sectionDataForMoreInfo: MoreTextInfo?
     var selectedData: ResultSimilar?
     static let sectionHeaderElementKind = "section-header-element-kind"
+    var indexPath1 = IndexPath()
     
     
     override func viewDidLoad() {
@@ -81,6 +82,7 @@ class MoreInfoCompositionLayout: UIViewController {
                 NSLayoutConstraint.activate([
                     cell.posterPhoto.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
                 ])
+                self.indexPath1 = indexPath
                 cell.posterPhoto.setImage(secondPartURL: self.posterPhoto!.posterPath)
                 
                 return cell
@@ -192,6 +194,42 @@ class MoreInfoCompositionLayout: UIViewController {
         
     }
   }
+
+extension MoreInfoCompositionLayout: DetailTransitionAnimatorDelegate {
+    
+    
+    
+    func transitionWillStart() {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath1) as! PosterPhoto
+        cell.posterPhoto.isHidden = true
+    }
+
+    func transitionDidEnd() {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath1) as! PosterPhoto
+        cell.posterPhoto.isHidden = false
+    }
+
+    func referenceImage() -> UIImage? {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath1) as! PosterPhoto
+        
+        cell.posterPhoto.setImage(secondPartURL: self.posterPhoto!.posterPath)
+        
+        return cell.image
+    }
+
+
+    func imageFrame() -> CGRect? {
+        
+      let cell = self.collectionView.cellForItem(at: indexPath1) as! PosterPhoto
+        
+//        print(cell.posterPhoto.frame)
+//        print(collectionView.cellForItem(at: indexPath1)?.frame)
+        
+        return self.collectionView.convert(CGRect(x: cell.bounds.minX + 10, y: cell.bounds.minY + 10, width: cell.posterPhoto.frame.width, height: cell.posterPhoto.frame.height), to: self.view)
+        
+    }
+}
+
 
 extension MoreInfoCompositionLayout: UICollectionViewDelegate {
     

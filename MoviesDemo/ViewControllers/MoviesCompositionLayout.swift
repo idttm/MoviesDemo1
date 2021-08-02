@@ -17,6 +17,8 @@ class MoviesCompositionLayout: UIViewController {
     private var selectedData: DataResult?
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource<SectionMovies, AnyHashable>! = nil
+    fileprivate var currentAnimationTransition: UIViewControllerAnimatedTransitioning? = nil
+    fileprivate var lastSelectedIndexPath: IndexPath? = nil
     
     
     override func viewDidLoad() {
@@ -26,6 +28,7 @@ class MoviesCompositionLayout: UIViewController {
             self.reloadData()
         }
         viewModel.refresh()
+        navigationController?.delegate = self
     }
     
     func setupCollectionView() {
@@ -102,15 +105,102 @@ extension MoviesCompositionLayout: UICollectionViewDelegate {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedData = viewModel.dataResult(at: indexPath)
-        performSegue(withIdentifier: "showMovie2", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        guard segue.identifier == "showMovie2" else { return }
-        guard let moreVC = segue.destination as? MoreInfoCompositionLayout else {return}
+        self.lastSelectedIndexPath = indexPath
+        let moreVC =  MoreInfoCompositionLayout()
         moreVC.sectionDataForMoreInfo = MoreTextInfo(currentMoview: selectedData!)
         moreVC.posterPhoto = PosterPhotoData(currentMoview: selectedData!)
         moreVC.movieId = selectedData!.id
+        self.navigationController?.pushViewController(moreVC, animated: true)
+     
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CompositionalLayoutMovieCell
+        cell.setHighlighted(true)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CompositionalLayoutMovieCell
+        cell.setHighlighted(false)
     }
 }
+
+extension MoviesCompositionLayout: DetailTransitionAnimatorDelegate {
+    func transitionWillStart() {
+        guard let lastSelected = self.lastSelectedIndexPath else { return }
+        self.collectionView.cellForItem(at: lastSelected)?.isHidden = true
+    }
+
+    func transitionDidEnd() {
+        guard let lastSelected = self.lastSelectedIndexPath else { return }
+        self.collectionView.cellForItem(at: lastSelected)?.isHidden = false
+    }
+
+    func referenceImage() -> UIImage? {
+        guard
+            let lastSelected = self.lastSelectedIndexPath,
+            let cell = self.collectionView.cellForItem(at: lastSelected) as? CompositionalLayoutMovieCell
+        else {
+            return nil
+        }
+
+        return cell.photoMovie.image
+    }
+
+    func imageFrame() -> CGRect? {
+        guard
+            let lastSelected = self.lastSelectedIndexPath,
+            let cell = self.collectionView.cellForItem(at: lastSelected) as? CompositionalLayoutMovieCell
+        
+        else {
+            return nil
+        }
+
+        return self.collectionView.convert(CGRect(x: cell.frame.minX + 5, y: cell.frame.minY + 5, width: cell.photoMovie.frame.width, height: cell.photoMovie.frame.height), to: self.view)
+        
+        
+    }
+}
+
+extension MoviesCompositionLayout: UINavigationControllerDelegate {
+
+    public func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
+        
+        let result: UIViewControllerAnimatedTransitioning?
+        if
+            let photoDetailVC = toVC as? MoreInfoCompositionLayout,
+            operation == .push
+        {
+            result = DetailPushTransition(fromDelegate: fromVC, toPhotoDetailVC: photoDetailVC)
+        } else if
+            let photoDetailVC = fromVC as? MoreInfoCompositionLayout,
+            operation == .pop
+        {
+                result = DetailPopTransition(toDelegate: toVC, fromPhotoDetailVC: photoDetailVC)
+        } else {
+            result = nil
+        }
+        self.currentAnimationTransition = result
+        return result
+    }
+    public func navigationController(
+        _ navigationController: UINavigationController,
+        interactionControllerFor animationController: UIViewControllerAnimatedTransitioning
+    ) -> UIViewControllerInteractiveTransitioning? {
+        return self.currentAnimationTransition as? UIViewControllerInteractiveTransitioning
+    }
+    
+    public func navigationController(
+        _ navigationController: UINavigationController,
+        didShow viewController: UIViewController,
+        animated: Bool
+    ) {
+        self.currentAnimationTransition = nil
+    }
+}
+

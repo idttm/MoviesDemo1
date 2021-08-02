@@ -13,14 +13,37 @@ class CompositionalLayoutMovieCell: UICollectionViewCell, SelfconfiguringCell {
     let photoMovie = UIImageView()
     let contentContainer = UIView()
     let label = UILabel()
+    let selectedView: UIView
     
-    override init(frame: CGRect) {
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        setupConstrains()
+//    }
+    
+    public override init(frame: CGRect) {
+        
+        self.selectedView = UIView()
+
         super.init(frame: frame)
+
+        self.selectedView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        self.selectedView.isHidden = true
+
+        self.accessibilityIgnoresInvertColors = true
+
+        self.contentView.addSubview(self.selectedView)
+        self.contentView.bringSubviewToFront(self.selectedView)
+
+        self.isAccessibilityElement = true
         setupConstrains()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setHighlighted(_ highlighted: Bool) {
+        self.selectedView.isHidden = !highlighted
     }
 
     func setupConstrains() {

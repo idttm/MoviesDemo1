@@ -31,6 +31,10 @@ class PosterPhoto: UICollectionViewCell, SelfconfiguringCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public var image: UIImage? {
+        return self.posterPhoto.image
+    }
+    
     func setupConstrains() {
         contentContainer.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(contentContainer)
