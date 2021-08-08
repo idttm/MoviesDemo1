@@ -27,3 +27,5 @@ class DetailInfoSimalrMovi: UIViewController {
     }
     
 }
+
+

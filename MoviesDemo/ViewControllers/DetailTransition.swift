@@ -46,17 +46,18 @@ public class DetailPushTransition: NSObject, UIViewControllerAnimatedTransitioni
     
 
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.38
+        return 0.5
     }
 
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
         let toView = transitionContext.view(forKey: .to)
         let fromView = transitionContext.view(forKey: .from)
-//        let fromReferenceFrame = detailVC.imageFrame()
-
+        let fromReferenceFrame = detailVC.imageFrame()
+        
         let containerView = transitionContext.containerView
         toView?.alpha = 0
+       
         [fromView, toView]
             .compactMap { $0 }
             .forEach {
@@ -67,12 +68,7 @@ public class DetailPushTransition: NSObject, UIViewControllerAnimatedTransitioni
         transitionImageView.frame = fromDelegate.imageFrame()
             ?? DetailPushTransition.defaultOffscreenFrameForPresentation(image: transitionImage, forView: toView!)
         
-        let toReferenceFrame = DetailPushTransition.calculateZoomInImageFrame(image: transitionImage, forView: toView!)
-//        let toReferenceFrame = self.fromDelegate.imageFrame() ??
-//            DetailPopTransition.defaultOffscreenFrameForDismissal(
-//                transitionImageSize: fromReferenceFrame!.size,
-//                screenHeight: containerView.bounds.height
-//        )
+//        let toReferenceFrame = DetailPushTransition.calculateZoomInImageFrame(image: transitionImage, forView: toView!)
         
         containerView.addSubview(self.transitionImageView)
 
@@ -81,10 +77,24 @@ public class DetailPushTransition: NSObject, UIViewControllerAnimatedTransitioni
 
         let duration = self.transitionDuration(using: transitionContext)
         let spring: CGFloat = 0.95
+       
         let animator = UIViewPropertyAnimator(duration: duration, dampingRatio: spring) {
-            self.transitionImageView.frame = toReferenceFrame
-//            toView?.alpha = 1
+            toView?.alpha = 1
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+            animator.addAnimations {
+                let toReferenceFrame = self.detailVC.imageFrame() ??
+                    DetailPushTransition.defaultOffscreenFrameForDismissal(
+                        transitionImageSize: fromReferenceFrame!.size,
+                        screenHeight: containerView.bounds.height
+                )
+                print(toReferenceFrame)
+                self.transitionImageView.frame = toReferenceFrame
+                
+            }
+            
+        }
+        
         animator.addCompletion { (position) in
             assert(position == .end)
             self.transitionImageView.removeFromSuperview()
@@ -92,8 +102,8 @@ public class DetailPushTransition: NSObject, UIViewControllerAnimatedTransitioni
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             self.detailVC.transitionDidEnd()
             self.fromDelegate.transitionDidEnd()
-            toView?.alpha = 1
         }
+        
         animator.startAnimation()
        
     }
@@ -108,10 +118,14 @@ public class DetailPushTransition: NSObject, UIViewControllerAnimatedTransitioni
     /// Because the photoDetailVC isn't laid out yet, we calculate a default rect here.
     // TODO: Move this into PhotoDetailViewController, probably!
     private static func calculateZoomInImageFrame(image: UIImage, forView view: UIView) -> CGRect {
-//        let rect = CGRect.makeRect(aspectRatio: image.size, insideRect: view.bounds)
-       
         
-        let rect = CGRect(x: 10, y: 74, width: 355, height: 590)
+        print("imaga\(image.size)")
+        print("view\(view.frame)")
+//        let rect = CGRect.makeRect(aspectRatio: image.size, insideRect: view.bounds)
+        let rect = CGRect(x: view.frame.minX, y: view.frame.minY, width: image.size.width, height: image.size.height)
+        print(rect)
+        
+//        let rect = CGRect(x: 10, y: 74, width: 355, height: 590)
         return rect
     }
     public static func defaultOffscreenFrameForDismissal(
@@ -163,7 +177,7 @@ public class DetailPopTransition: NSObject, UIViewControllerAnimatedTransitionin
         let fromView = transitionContext.view(forKey: .from)
         let toView = transitionContext.view(forKey: .to)
         let containerView = transitionContext.containerView
-        let fromReferenceFrame = photoDetailVC.imageFrame()!
+        let fromReferenceFrame = photoDetailVC.imageFrame()
 
         let transitionImage = photoDetailVC.referenceImage()
         transitionImageView.image = transitionImage
@@ -201,7 +215,7 @@ public class DetailPopTransition: NSObject, UIViewControllerAnimatedTransitionin
             animator.addAnimations {
                 let toReferenceFrame = self.toDelegate.imageFrame() ??
                     DetailPopTransition.defaultOffscreenFrameForDismissal(
-                        transitionImageSize: fromReferenceFrame.size,
+                        transitionImageSize: fromReferenceFrame!.size,
                         screenHeight: containerView.bounds.height
                 )
                 self.transitionImageView.frame = toReferenceFrame

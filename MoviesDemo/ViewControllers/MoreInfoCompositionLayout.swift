@@ -36,6 +36,7 @@ class MoreInfoCompositionLayout: UIViewController {
         }
         reloadData()
     }
+   
     
     func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -197,8 +198,6 @@ class MoreInfoCompositionLayout: UIViewController {
 
 extension MoreInfoCompositionLayout: DetailTransitionAnimatorDelegate {
     
-    
-    
     func transitionWillStart() {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath1) as! PosterPhoto
         cell.posterPhoto.isHidden = true
@@ -220,16 +219,17 @@ extension MoreInfoCompositionLayout: DetailTransitionAnimatorDelegate {
 
     func imageFrame() -> CGRect? {
         
-      let cell = self.collectionView.cellForItem(at: indexPath1) as! PosterPhoto
+//      let cell = self.collectionView.cellForItem(at: indexPath1) as! PosterPhoto
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterPhoto.reusedId, for: indexPath1) as! PosterPhoto
         
-//        print(cell.posterPhoto.frame)
+        cell.posterPhoto.setImage(secondPartURL: self.posterPhoto!.posterPath)
+//        print(cell.posterPhoto.frame)setImage(secondPartURL: self.posterPhoto!.posterPath)
 //        print(collectionView.cellForItem(at: indexPath1)?.frame)
         
         return self.collectionView.convert(CGRect(x: cell.bounds.minX + 10, y: cell.bounds.minY + 10, width: cell.posterPhoto.frame.width, height: cell.posterPhoto.frame.height), to: self.view)
         
     }
 }
-
 
 extension MoreInfoCompositionLayout: UICollectionViewDelegate {
     

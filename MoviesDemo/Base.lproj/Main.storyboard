@@ -269,7 +269,7 @@
         <!--More Info Composition Layout-->
         <scene sceneID="Iai-bW-kKP">
             <objects>
-                <viewController id="jpm-0w-kti" customClass="MoreInfoCompositionLayout" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myVCID" id="jpm-0w-kti" customClass="MoreInfoCompositionLayout" customModule="MoviesDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e2h-co-bLY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -278,7 +278,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="KWs-qb-2kN"/>
                     <connections>
-                        <segue destination="iO0-u0-hvT" kind="presentation" identifier="detailInfoSimilar" id="Y2y-ad-ruu"/>
+                        <segue destination="iO0-u0-hvT" kind="presentation" identifier="detailInfoSimilar" id="paJ-K4-AUG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKi-if-bGD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -536,7 +536,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Bqa-06-nT6"/>
-        <segue reference="SUU-Uf-fSr"/>
+        <segue reference="FTZ-0a-uKX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="list.bullet.rectangle" catalog="system" width="128" height="93"/>

@@ -11,6 +11,7 @@ enum SectionMovies: Int {
     case movie
 }
 
+
 class MoviesCompositionLayout: UIViewController {
     
     var viewModel = MoviewTBVViewModel()
@@ -106,11 +107,12 @@ extension MoviesCompositionLayout: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedData = viewModel.dataResult(at: indexPath)
         self.lastSelectedIndexPath = indexPath
-        let moreVC =  MoreInfoCompositionLayout()
-        moreVC.sectionDataForMoreInfo = MoreTextInfo(currentMoview: selectedData!)
-        moreVC.posterPhoto = PosterPhotoData(currentMoview: selectedData!)
-        moreVC.movieId = selectedData!.id
-        self.navigationController?.pushViewController(moreVC, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(identifier: "myVCID") as? MoreInfoCompositionLayout else { return }
+        vc.sectionDataForMoreInfo = MoreTextInfo(currentMoview: selectedData!)
+        vc.posterPhoto = PosterPhotoData(currentMoview: selectedData!)
+        vc.movieId = selectedData!.id
+        self.navigationController?.pushViewController(vc, animated: true)
      
     }
     
